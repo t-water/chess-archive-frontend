@@ -1,0 +1,100 @@
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.piece-img{
+    width: 55px;
+    height: auto;
+}
+
+.square {
+    border-radius: 0px;
+    border-color: #000;
+    height: 55px;
+    width: 55px;
+}
+
+#analysis-board-line {
+    font-size: 20px;
+}
+
+.analysis-component-line-span {
+    cursor: pointer;
+}
+
+@media (max-width: 1320px){
+  .piece-img{
+      width: 55px;
+  }
+
+  .square {
+      height: 55px;
+      width: 55px;
+  }
+}
+
+@media (max-width: 1132px){
+  .piece-img{
+      width: 45px;
+  }
+
+  .square {
+      height: 45px;
+      width: 45px;
+  }
+}
+
+@media (max-width: 991px){
+  .piece-img{
+      width: 65px;
+  }
+
+  .square {
+      height: 65px;
+      width: 65px;
+  }
+}
+
+@media (max-width: 550px){
+  .piece-img{
+      width: 50px;
+  }
+
+  .square {
+      height: 50px;
+      width: 50px;
+  }
+}
+
+@media (max-width: 430px){
+  .piece-img{
+      width: 40px;
+  }
+
+  .square {
+      height: 40px;
+      width: 40px;
+  }
+}
+
+@media (max-width: 350px){
+  .piece-img{
+      width: 30px;
+  }
+
+  .square {
+      height: 30px;
+      width: 30px;
+  }
+}
