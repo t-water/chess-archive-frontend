@@ -3,6 +3,7 @@ import NavMenu from './NavMenu';
 import { Switch, Route } from 'react-router-dom';
 import Analysis from './AnalysisComponent'
 import Upload from './UploadComponent'
+import BrowsePlayers from './BrowsePlayersComponent'
 
 class Main extends Component{
 	constructor(props){
@@ -16,6 +17,7 @@ class Main extends Component{
 					<Switch>
 						<Route path="/analysis/:id?" component={Analysis}/>
 						<Route path="/upload" component={Upload}/>
+						<Route path="/browseplayers" component={BrowsePlayers}/>
 					</Switch>
 				</div>
 			</div>

@@ -39,6 +39,7 @@ class Upload extends Component{
 									  rows="5"
 								      maxLength="5000">
 							</textarea>
+
 							<span className="text-danger"
 								  id="pgn-error-span"></span>
 						</div>

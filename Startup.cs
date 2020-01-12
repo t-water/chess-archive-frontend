@@ -32,7 +32,8 @@ namespace Chess
                 configuration.RootPath = "ClientApp/build";
             });
 
-            /*services.AddScoped<IPgnRepository, PgnRepository>();*/
+            services.AddScoped<IPgnRepository, PgnRepository>();
+            services.AddScoped<IPlayerRepository, PlayerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

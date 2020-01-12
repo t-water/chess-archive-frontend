@@ -34,13 +34,13 @@ class NavMenu extends Component {
                   <NavLink className="text-white nav-link" to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
+                  <NavLink className="text-white nav-link" to="/gamesearch">Game Search</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink className="text-white nav-link" to="/browseplayers">Browse Players</NavLink>
+                </NavItem>
+                <NavItem>
                   <NavLink className="text-white nav-link" to="/analysis">Analysis</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink className="text-white nav-link" to="/analysis">Game Search</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink className="text-white nav-link" to="/analysis">Browse Players</NavLink>
                 </NavItem>
               </ul>
             </Collapse>
