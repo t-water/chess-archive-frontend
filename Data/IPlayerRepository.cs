@@ -10,5 +10,7 @@ namespace Chess.Data
     {
         public Task Add(Player player);
         public Task<IEnumerable<Player>> GetPlayers();
+        public Task<Player> GetPlayer(int id);
+        public Task<PlayerGames> ViewGames(int id);
     }
 }

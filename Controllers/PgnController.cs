@@ -20,6 +20,14 @@ namespace Chess.Controllers
             this.pgnRepo = pgnRepo;
         }
 
+        [HttpGet]
+        [Route("GetGame")]
+        public async Task<IActionResult> GetGame(int id){
+            var model = await pgnRepo.GetGame(id);
+            string jsonResponse = JsonConvert.SerializeObject(model);
+            return Content(jsonResponse, "application/json");
+        }
+
         [HttpPost]
         [Route("UploadText")]
         public async Task<IActionResult> UploadText(PgnString text)

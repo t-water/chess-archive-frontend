@@ -9,8 +9,10 @@ class Piece extends Component{
 	}
 
 	handleMouseDown(e){
-		if(this.props.isWhitesTurn === this.props.isWhite){
-			this.props.handleMouseDown(e, this)
+		if(this.props.handleMouseDown){
+			if(this.props.isWhitesTurn === this.props.isWhite){
+				this.props.handleMouseDown(e, this)
+			}
 		}
 	}
 

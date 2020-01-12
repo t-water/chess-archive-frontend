@@ -11,5 +11,6 @@ namespace Chess.Data
     	Task Add(Pgn pgn);
 		Task Update(Pgn pgn);
 		Task Delete(Pgn pgn);
+		Task<Pgn> GetGame(int id);
     }
 }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import Spinner from './SpinnerComponent'
 
 function RenderPlayerCard({player}){
 	return(
@@ -9,7 +10,7 @@ function RenderPlayerCard({player}){
 				<CardText>{player.Country}</CardText>
 				<CardText>Born: {player.BirthDate}</CardText>
 				{player.DeathDate !== null && <CardText>Died: {player.DeathDate}</CardText>}
-				<CardText><a href="">View Games</a></CardText>
+				<CardText><a href={"/viewgames/" + player.PlayerId}>View Games</a></CardText>
 			</CardBody>
 		</Card>
 	)
@@ -43,7 +44,7 @@ class BrowsePlayers extends Component{
 			})
 			return <div>{players}</div>
 		}else{
-			return(<div></div>)
+			return(<div><Spinner/></div>)
 		}
 		
 	}

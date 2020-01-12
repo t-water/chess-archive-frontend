@@ -25,5 +25,18 @@ namespace Chess.Data
         {
             return await _context.Players.ToListAsync();
         }
+
+        public async Task<Player> GetPlayer(int id)
+        {
+            return await _context.Players.FirstOrDefaultAsync(p => p.PlayerId == id);
+        }
+
+        public async Task<PlayerGames> ViewGames(int id)
+        {
+            var model = new PlayerGames();
+            model.Player = await _context.Players.FirstOrDefaultAsync(p => p.PlayerId == id);
+            model.Games = _context.Pgns.Where(g => g.WhitePlayerId == id || g.BlackPlayerId == id).Include(g => g.WhitePlayer).Include(g => g.BlackPlayer);
+            return model;
+        }
     }
 }

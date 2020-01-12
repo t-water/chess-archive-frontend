@@ -4,6 +4,8 @@ import { Switch, Route } from 'react-router-dom';
 import Analysis from './AnalysisComponent'
 import Upload from './UploadComponent'
 import BrowsePlayers from './BrowsePlayersComponent'
+import ViewGames from './ViewGamesComponent'
+import ViewGame from './ViewGameComponent'
 
 class Main extends Component{
 	constructor(props){
@@ -18,6 +20,8 @@ class Main extends Component{
 						<Route path="/analysis/:id?" component={Analysis}/>
 						<Route path="/upload" component={Upload}/>
 						<Route path="/browseplayers" component={BrowsePlayers}/>
+						<Route path="/viewgames/:id?" component={ViewGames}/>
+						<Route path="/game/:id?" component={ViewGame}/>
 					</Switch>
 				</div>
 			</div>

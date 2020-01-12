@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Chess.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Chess.Data
 {
@@ -28,6 +29,10 @@ namespace Chess.Data
         public async Task Delete(Pgn pgn){
         	_context.Pgns.Remove(pgn);
         	await _context.SaveChangesAsync();
+        }
+
+        public async Task<Pgn> GetGame(int id){
+            return await _context.Pgns.FirstOrDefaultAsync(g => g.Id == id);
         }
     }
 }

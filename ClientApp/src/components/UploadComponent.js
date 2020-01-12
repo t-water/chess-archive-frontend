@@ -16,7 +16,6 @@ class Upload extends Component{
 			body: formData
 		});
 		let data = await response.json();
-		console.log(data)
 		if(data.hasOwnProperty("Error")){
 			document.getElementById('pgn-error-span').innerText = data.Error
 		}else{
