@@ -112,11 +112,6 @@ class Analysis extends Component{
 				}
 			}
 
-			let newDimensions = getComputedStyle(document.querySelector('.square')).getPropertyValue('width')
-			console.log(newDimensions)
-			image.style.width = newDimensions;
-			image.style.height = newDimensions;
-
 			document.removeEventListener('mousemove', onMouseMove);
 			image.onmouseup = null;
 		};
@@ -190,10 +185,15 @@ class Analysis extends Component{
 		}
 	}
 
-	renderMovesForLine(){
-		return this.state.line.map((x,i) => {return <span key={`move: ${i}`}
-														  onClick={() => this.handleMoveClick(i)}
-														  className="analysis-component-line-span">{x}</span>})
+	renderMovesForLine(timeTravelIndex){
+		return this.state.line.map((x,i) => {
+			console.log(`i: ${i}, timeTravelIndex: ${timeTravelIndex}`)
+			let highlighted = timeTravelIndex - 1 === i ? "bg-warning" : ""
+			return <span key={`move: ${i}`}
+						 onClick={() => this.handleMoveClick(i)}
+						 className={"analysis-component-line-span " + highlighted}>{x}
+				   </span>
+		})
 	}
 
 	handleMoveClick(i){
@@ -233,7 +233,7 @@ class Analysis extends Component{
 	}
 	
 	render(){
-		let line = this.renderMovesForLine()
+		let line = this.renderMovesForLine(this.chess.getTimeTravelIndex())
 		return(
 			<div className="row">
 				<div className="col-12 col-lg-5 text-center">
@@ -250,13 +250,13 @@ class Analysis extends Component{
 					</div>
 				</div>
 				<div className="col-12 col-lg-7">
-					<h2 className="mt-3">Paste FEN here</h2>
+					<h2 className="mt-3">Paste FEN Here</h2>
 					<input id="analysis-component-fen-textarea" className="form-control" onInput={this.handleFENInput} />
 					<div><input className="form-control"
 								value={this.chess.getCurrentFEN()}
 								maxLength="100"
 					            readOnly  /></div>
-					<h2>Paste PGN here</h2>
+					<h2>Paste PGN Here</h2>
 					<form onSubmit={this.handlePGNSubmit}
 						  id="pgn-form"
 						  method="post">

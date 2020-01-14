@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import NavMenu from './NavMenu';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Analysis from './AnalysisComponent'
 import Upload from './UploadComponent'
 import BrowsePlayers from './BrowsePlayersComponent'
+import Home from './HomeComponent'
 import ViewGames from './ViewGamesComponent'
 import ViewGame from './ViewGameComponent'
 
@@ -17,11 +18,13 @@ class Main extends Component{
 				<NavMenu/>
 				<div className="container">
 					<Switch>
+						<Route path="/home" component={Home}/>
 						<Route path="/analysis/:id?" component={Analysis}/>
 						<Route path="/upload" component={Upload}/>
 						<Route path="/browseplayers" component={BrowsePlayers}/>
 						<Route path="/viewgames/:id?" component={ViewGames}/>
 						<Route path="/game/:id?" component={ViewGame}/>
+						<Redirect to="/home"/>
 					</Switch>
 				</div>
 			</div>

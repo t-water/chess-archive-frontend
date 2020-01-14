@@ -3,6 +3,8 @@ import {InCheck, InCheckmate} from './CheckCheckmate';
 import {ConvertSquareNameToIndex, ConvertIndexToSquareName, ConvertFENtoBoardArray, ConvertBoardArrayToFEN} from './NotationConversions'
 
 export function PlayChess(fen){
+	ConvertFENtoBoardArray('5k2/pp4p1/4pp2/1P5p/8/P2KP1P1/5P1b/2B5 w - h6 0 31');
+
 	let startingPosition = [
 	 'r', "n", 'b', 'q', 'k', 'b', "n", 'r',
 	 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p',
@@ -319,7 +321,6 @@ export function PlayChess(fen){
 	}
 
 	this.readPGN = function(pgn){
-		console.log(pgn)
 		//remove annotations
 		pgn = pgn.replace(/{[^}]+}/g, "")
 		         .replace(/\([^)]+\)/g, "")
@@ -329,7 +330,6 @@ export function PlayChess(fen){
 		let pgnArray = pgn.split(/\s/);
 		pgnArray = pgnArray.filter(x => x.length > 1)
 		pgnArray.pop();
-		console.log(pgnArray)
 
 		return pgnArray
 	}
@@ -536,6 +536,15 @@ export function PlayChess(fen){
 							currentPosition[endingIndex] = "q"
 						}else if(piece === "P" && (endingIndex >=0 && endingIndex <=7)){
 							currentPosition[endingIndex] = "Q"
+						}
+
+						let check;
+						if(isWhitesTurn){
+							if(InCheck(currentPosition, currentPosition.indexOf('k'), 'k')){
+								
+							}
+						}else{
+
 						}		
 
 						pgn.push(this.addToPGN(piece, startingIndex, endingIndex, capture))

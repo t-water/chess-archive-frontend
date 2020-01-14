@@ -63,5 +63,13 @@ namespace Chess.Controllers
             string jsonResponse = JsonConvert.SerializeObject(model);
             return Content(jsonResponse, "application/json");
         }
+
+        [HttpGet]
+        [Route("GetFeaturedPlayers")]
+        public async Task<IActionResult> GetFeaturedPlayers(){
+            var model = await playerRepo.GetFeaturedPlayers();
+            string jsonResponse = JsonConvert.SerializeObject(model);
+            return Content(jsonResponse, "application/json");
+        }
     }
 }

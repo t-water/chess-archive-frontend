@@ -3,18 +3,43 @@ import ReactDOM from "react-dom";
 import Game from './GameComponent';
 import {PlayChess} from '../shared/ChessLogic';
 
+function RenderDetailsTable({game}){
+	return(<div className="table-responsive mt-5">
+		<table className="table table-striped">
+			<tbody>
+				<tr>
+					<th>White</th>
+					<td>{game.WhitePlayer.FullName}</td>
+				</tr>
+				<tr>
+					<th>Black</th>
+					<td>{game.BlackPlayer.FullName}</td>
+				</tr>
+				<tr>
+					<th>Event</th>
+					<td>{game.Event}</td>
+				</tr>
+				<tr>
+					<th>Round</th>
+					<td>{game.Round}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>)
+}
+
 class ViewGame extends Component{
 	constructor(props){
 		super(props)
 
 		this.chess = new PlayChess();
 		
-		
 		this.state = {
 			squares: this.chess.getCurrentPosition(),
 			isWhitesTurn: this.chess.getIsWhitesTurn(),
 			line: this.chess.getPGN(),
 			boardFlipped: false,
+			detailsTable: null
 		}
 
 		this.handleFENInput = this.handleFENInput.bind(this)
@@ -91,10 +116,14 @@ class ViewGame extends Component{
 		}
 	}
 
-	renderMovesForLine(){
-		return this.state.line.map((x,i) => {return <span key={`move: ${i}`}
-														  onClick={() => this.handleMoveClick(i)}
-														  className="analysis-component-line-span">{x}</span>})
+	renderMovesForLine(timeTravelIndex){
+		return this.state.line.map((x,i) => {
+			let highlighted = timeTravelIndex - 1 === i ? "bg-warning" : ""
+			return <span key={`move: ${i}`}
+						 onClick={() => this.handleMoveClick(i)}
+						 className={"analysis-component-line-span " + highlighted}>{x}
+				   </span>
+		})
 	}
 
 	handleMoveClick(i){
@@ -113,11 +142,13 @@ class ViewGame extends Component{
 	    })
 	    .then(response => response.json())
 	    .then(response => {
+	    	console.log(response)
 	    	this.chess.startWithPGN(response.Moves)
 	    	this.setState({
 	    		squares: this.chess.getCurrentPosition(),
 	    		isWhitesTurn: this.chess.getIsWhitesTurn(),
-	    		line: this.chess.getPGN()
+	    		line: this.chess.getPGN(),
+	    		detailsTable: <RenderDetailsTable game={response}/>
 	    	})
 	    })
 	}
@@ -126,7 +157,7 @@ class ViewGame extends Component{
 	}
 	
 	render(){
-		let line = this.renderMovesForLine()
+		let line = this.renderMovesForLine(this.chess.getTimeTravelIndex())
 		return(
 			<div className="row">
 				<div className="col-12 col-lg-5 text-center">
@@ -149,6 +180,7 @@ class ViewGame extends Component{
 						            readOnly  />
 		            </div>
 					<div id="analysis-board-line">{line}</div>
+					{this.state.detailsTable !== null && this.state.detailsTable}
 				</div>
 			</div>
 		)

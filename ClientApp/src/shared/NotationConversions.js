@@ -15,8 +15,8 @@ function ConvertIndexToSquareName(index){
 function ConvertFENtoBoardArray(fenString){
 	let fenArray = fenString.split(" ")
 	let pieces = fenArray[0]
-
-	if(fenString.match(/^(\w+\/){7}\w+ [bw] [kKqQ-]{1,} ([a-f]\d|-) \d{1,} \d{1,}$/) &&
+	
+	if(fenString.match(/^(\w+\/){7}\w+ [bw] [kKqQ-]{1,} ([a-h]\d|-) \d{1,} \d{1,}$/) &&
 	   pieces.match(/k/g).length === 1 &&
 	   pieces.match(/K/g).length === 1){
 	   	let pieceArray = pieces.split("/").join("").split("")

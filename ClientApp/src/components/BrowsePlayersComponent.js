@@ -7,10 +7,10 @@ function RenderPlayerCard({player}){
 		<Card className = "mb-3">
 			<CardBody>
 				<CardTitle>{player.FullName}</CardTitle>
-				<CardText>{player.Country}</CardText>
-				<CardText>Born: {player.BirthDate}</CardText>
-				{player.DeathDate !== null && <CardText>Died: {player.DeathDate}</CardText>}
-				<CardText><a href={"/viewgames/" + player.PlayerId}>View Games</a></CardText>
+				<CardText><strong>Country: </strong>{player.Country}</CardText>
+				<CardText><strong>Born: </strong>{player.BirthDate.replace(/T00:00:00/, "")}</CardText>
+				{player.DeathDate !== null && <CardText><strong>Died: </strong>{player.DeathDate.replace(/T00:00:00/, "")}</CardText>}
+				<CardText><a className="btn btn-primary" href={"/viewgames/" + player.PlayerId}>View Games</a></CardText>
 			</CardBody>
 		</Card>
 	)

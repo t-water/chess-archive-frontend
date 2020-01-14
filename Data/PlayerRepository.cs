@@ -38,5 +38,9 @@ namespace Chess.Data
             model.Games = _context.Pgns.Where(g => g.WhitePlayerId == id || g.BlackPlayerId == id).Include(g => g.WhitePlayer).Include(g => g.BlackPlayer);
             return model;
         }
+
+        public async Task<IEnumerable<Player>> GetFeaturedPlayers(){
+            return await _context.Players.Where(p => p.Featured).ToListAsync();
+        }
     }
 }

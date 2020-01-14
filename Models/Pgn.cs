@@ -7,6 +7,11 @@ namespace Chess.Models
 {
     public class Pgn
     {
+        public Pgn()
+        {
+            Featured = false;
+        }
+
         public int Id { get; set; }
         public string Event { get; set; }
         public string Site { get; set; }
@@ -14,6 +19,7 @@ namespace Chess.Models
         public string Round { get; set; }
         public string Result { get; set; }
         public string Moves { get; set; }
+        public bool Featured { get; set; }
 
         public int WhitePlayerId { get; set; }
         public Player WhitePlayer { get; set; }

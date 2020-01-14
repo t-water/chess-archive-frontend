@@ -8,6 +8,11 @@ namespace Chess.Models
 {
     public class Player
     {
+        public Player()
+        {
+            Featured = false;
+        }
+
         public int PlayerId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -18,6 +23,8 @@ namespace Chess.Models
         [DataType(DataType.Date)]
         public DateTime? DeathDate { get; set; }
         public string Country { get; set; }
+        public string ImageSrc { get; set; }
+        public bool Featured { get; set; }
         public string FullName
         {
             get

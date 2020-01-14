@@ -28,6 +28,15 @@ namespace Chess.Controllers
             return Content(jsonResponse, "application/json");
         }
 
+        [HttpGet]
+        [Route("GetFeaturedGames")]
+        public async Task<IActionResult> GetFeaturedGames()
+        {
+            var model = await pgnRepo.GetFeaturedGames();
+            string jsonResponse = JsonConvert.SerializeObject(model);
+            return Content(jsonResponse, "application/json");
+        }
+
         [HttpPost]
         [Route("UploadText")]
         public async Task<IActionResult> UploadText(PgnString text)
@@ -38,6 +47,8 @@ namespace Chess.Controllers
             try
             {
                 model = ParsePGNString(text.Pgn);
+                model.WhitePlayerId = 1;
+                model.BlackPlayerId = 1;
                 await pgnRepo.Add(model);
                 jsonResponse = JsonConvert.SerializeObject(model);
             }
@@ -146,8 +157,6 @@ namespace Chess.Controllers
                     throw new Exception("Invalid Format");
                 }
             }
-            model.WhitePlayerId = 1;
-            model.BlackPlayerId = 1;
             
             return model;
         }

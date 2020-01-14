@@ -33,6 +33,10 @@ code {
     cursor: pointer;
 }
 
+span.highlighted{
+  color: red;
+}
+
 @media (max-width: 1320px){
   .piece-img{
       width: 55px;
