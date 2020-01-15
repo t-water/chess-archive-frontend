@@ -13,5 +13,7 @@ namespace Chess.Data
 		Task Delete(Pgn pgn);
 		Task<Pgn> GetGame(int id);
 		Task<IEnumerable<Pgn>> GetFeaturedGames();
+        Task<IEnumerable<Pgn>> GetGames();
+        IEnumerable<Pgn> GetGamesFiltered(string name);
     }
 }

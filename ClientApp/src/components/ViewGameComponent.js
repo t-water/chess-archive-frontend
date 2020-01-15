@@ -23,6 +23,10 @@ function RenderDetailsTable({game}){
 					<th>Round</th>
 					<td>{game.Round}</td>
 				</tr>
+				<tr>
+					<th>Result</th>
+					<td>{game.Result}</td>
+				</tr>
 			</tbody>
 		</table>
 	</div>)
@@ -42,7 +46,6 @@ class ViewGame extends Component{
 			detailsTable: null
 		}
 
-		this.handleFENInput = this.handleFENInput.bind(this)
 		this.handleResetButtonClick = this.handleResetButtonClick.bind(this)
 		this.handleFlipBoardClick = this.handleFlipBoardClick.bind(this)
 		this.handleKeyDown = this.handleKeyDown.bind(this)
@@ -50,16 +53,6 @@ class ViewGame extends Component{
 		this.setStateToTimeTravelResult = this.setStateToTimeTravelResult.bind(this)
 		this.renderMovesForLine = this.renderMovesForLine.bind(this)
 		this.handleMoveClick = this.handleMoveClick.bind(this)
-	}
-
-	handleFENInput(){
-		let input = document.getElementById('analysis-component-fen-textarea')
-		let fen = input.textContent.trim();
-		this.chess.startWithFEN(input.value)
-		this.setState({
-			squares: this.chess.getCurrentPosition(),
-			isWhitesTurn: this.chess.getIsWhitesTurn(),
-		})
 	}
 
 	handleResetButtonClick(){
@@ -142,7 +135,6 @@ class ViewGame extends Component{
 	    })
 	    .then(response => response.json())
 	    .then(response => {
-	    	console.log(response)
 	    	this.chess.startWithPGN(response.Moves)
 	    	this.setState({
 	    		squares: this.chess.getCurrentPosition(),
@@ -168,13 +160,14 @@ class ViewGame extends Component{
 							  boardFlipped={this.state.boardFlipped}
 							  handleDragStart={this.handleDragStart}/>
 					<div className="form-group mt-1">
-						{/*<button className="btn btn-warning m-1" onClick={this.handleResetButtonClick}>Reset</button>*/}
+						<button className="btn btn-warning m-1">Previous Move</button>
 						<button className="btn btn-primary m-1" onClick={this.handleFlipBoardClick}>Flip Board</button>
+						<span className="fas fa-arrow-circle-right"></span>
 					</div>
 				</div>
 				<div className="col-12 col-lg-7">
 					<div>
-						<input className="form-control"
+						<input className="form-control mb-2"
 									value={this.chess.getCurrentFEN()}
 									maxLength="100"
 						            readOnly  />

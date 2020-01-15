@@ -34,7 +34,7 @@ class NavMenu extends Component {
                   <NavLink className="text-white nav-link" to="/">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="/gamesearch">Game Search</NavLink>
+                  <NavLink className="text-white nav-link" to="/browsegames">Browse Games</NavLink>
                 </NavItem>
                 <NavItem>
                   <NavLink className="text-white nav-link" to="/browseplayers">Browse Players</NavLink>

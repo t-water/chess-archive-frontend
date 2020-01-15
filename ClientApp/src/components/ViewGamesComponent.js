@@ -39,7 +39,6 @@ class ViewGames extends Component{
 	}
 
 	render(){
-		/*return (<div></div>)*/
 		if(this.state.player){
 			let games = this.state.games.map(game => {
 				return <div key={`${game.Event} ${game.Round}`}><RenderGameCard game={game}/></div>

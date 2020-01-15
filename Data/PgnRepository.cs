@@ -35,6 +35,16 @@ namespace Chess.Data
             return  await _context.Pgns.Where(g => g.Id == id).Include(g => g.WhitePlayer).Include(g => g.BlackPlayer).FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<Pgn>> GetGames()
+        {
+            return await _context.Pgns.ToListAsync();
+        }
+
+        public IEnumerable<Pgn> GetGamesFiltered(string name)
+        {
+            return _context.Pgns.Where(p => p.Event.StartsWith(name) || p.Event.EndsWith(name));
+        }
+
         public async Task<IEnumerable<Pgn>> GetFeaturedGames(){
             return await _context.Pgns.Where(g => g.Featured).ToListAsync();
         }

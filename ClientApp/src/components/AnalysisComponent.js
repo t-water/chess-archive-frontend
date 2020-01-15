@@ -247,6 +247,7 @@ class Analysis extends Component{
 					<div className="form-group mt-1">
 						<button className="btn btn-warning m-1" onClick={this.handleResetButtonClick}>Reset</button>
 						<button className="btn btn-primary m-1" onClick={this.handleFlipBoardClick}>Flip Board</button>
+						<span className="fas fa-arrow-circle-right"/>
 					</div>
 				</div>
 				<div className="col-12 col-lg-7">

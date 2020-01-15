@@ -157,7 +157,7 @@ export function PlayChess(fen){
 		pgn = arr.slice()
 	}
 
-	this.addToPGN = function(piece, startingIndex, endingIndex, capture, check, checkmate){
+	this.addToPGN = function(piece, startingIndex, endingIndex, capture, check, checkmate, result){
 		let entry = "";
 
 		if(isWhitesTurn){
@@ -186,6 +186,8 @@ export function PlayChess(fen){
 		}else if(check){
 			entry += '+'
 		}
+
+		entry += " " + result
 
 		return entry + " "
 	}
@@ -538,16 +540,39 @@ export function PlayChess(fen){
 							currentPosition[endingIndex] = "Q"
 						}
 
-						let check;
+						let pgnCheck;
+						let pgnCheckMate;
+						let pgnResult = "";
+
 						if(isWhitesTurn){
 							if(InCheck(currentPosition, currentPosition.indexOf('k'), 'k')){
-								
+								if(InCheckmate(currentPosition, 'k')){
+									pgnCheckMate = true;
+									pgnResult = "1-0"
+								}else{
+									pgnCheck = true;
+								}
+							}else{
+								if(InCheckmate(currentPosition, 'k')){
+									pgnResult = "1/2-1/2"
+								}
 							}
 						}else{
-
+							if(InCheck(currentPosition, currentPosition.indexOf('K'), 'K')){
+								if(InCheckmate(currentPosition, 'K')){
+									pgnCheckMate = true;
+									pgnResult = "0-1"
+								}else{
+									pgnCheck = true;
+								}
+							}else{
+								if(InCheckmate(currentPosition, 'K')){
+									pgnResult = "1/2-1/2"
+								}
+							}
 						}		
 
-						pgn.push(this.addToPGN(piece, startingIndex, endingIndex, capture))
+						pgn.push(this.addToPGN(piece, startingIndex, endingIndex, capture, pgnCheck, pgnCheckMate, pgnResult))
 						
 						if(!isWhitesTurn){
 							fullMoveNumber += 1;
