@@ -26,9 +26,14 @@ namespace Chess.Data
             return await _context.Players.ToListAsync();
         }
 
-        public IQueryable<Player> GetPlayersFiltered(string name)
+        public async Task<IEnumerable<Player>> GetPlayersFiltered(string name)
         {
-            return _context.Players.Where(p => p.FirstName.StartsWith(name) || p.LastName.StartsWith(name) || (p.FirstName + " " + p.LastName).StartsWith(name));
+            if (!string.IsNullOrEmpty(name))
+            {
+                return await _context.Players.Where(p => p.FirstName.StartsWith(name) || p.LastName.StartsWith(name) || (p.FirstName + " " + p.LastName).StartsWith(name)).ToListAsync();
+            }
+
+            return await _context.Players.ToListAsync();
         }
 
         public async Task<Player> GetPlayer(int id)

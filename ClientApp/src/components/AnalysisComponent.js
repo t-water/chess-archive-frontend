@@ -16,12 +16,13 @@ class Analysis extends Component{
 			boardFlipped: false,
 		}
 
+		this.handleMouseDown = this.handleMouseDown.bind(this)
+		this.handleDragStart = this.handleDragStart.bind(this)
 		this.handleFENInput = this.handleFENInput.bind(this)
 		this.handleResetButtonClick = this.handleResetButtonClick.bind(this)
 		this.handleFlipBoardClick = this.handleFlipBoardClick.bind(this)
-		this.handleMouseDown = this.handleMouseDown.bind(this)
-		this.handleDragStart = this.handleDragStart.bind(this)
 		this.handleKeyDown = this.handleKeyDown.bind(this)
+		this.handleArrowButtonClick = this.handleArrowButtonClick.bind(this)
 		this.setStateToTimeTravelResult = this.setStateToTimeTravelResult.bind(this)
 		this.renderMovesForLine = this.renderMovesForLine.bind(this)
 		this.handleMoveClick = this.handleMoveClick.bind(this)
@@ -128,6 +129,8 @@ class Analysis extends Component{
 		this.setState({
 			squares: this.chess.getCurrentPosition(),
 			isWhitesTurn: this.chess.getIsWhitesTurn(),
+			boardFlipped: false,
+			line: this.chess.getPGN()
 		})
 	}
 
@@ -171,6 +174,13 @@ class Analysis extends Component{
 		}
 	}
 
+	handleArrowButtonClick(i){
+		setTimeout(() => {
+			this.chess.timeTravel(this.chess.getTimeTravelIndex() + i)
+			this.setStateToTimeTravelResult()
+		}, 150)
+	}
+
 	setStateToTimeTravelResult(){
 		if(this.state.boardFlipped){
 			this.setState({
@@ -187,7 +197,6 @@ class Analysis extends Component{
 
 	renderMovesForLine(timeTravelIndex){
 		return this.state.line.map((x,i) => {
-			console.log(`i: ${i}, timeTravelIndex: ${timeTravelIndex}`)
 			let highlighted = timeTravelIndex - 1 === i ? "bg-warning" : ""
 			return <span key={`move: ${i}`}
 						 onClick={() => this.handleMoveClick(i)}
@@ -245,9 +254,25 @@ class Analysis extends Component{
 							  handleMouseDown={this.handleMouseDown}
 							  handleDragStart={this.handleDragStart}/>
 					<div className="form-group mt-1">
-						<button className="btn btn-warning m-1" onClick={this.handleResetButtonClick}>Reset</button>
-						<button className="btn btn-primary m-1" onClick={this.handleFlipBoardClick}>Flip Board</button>
-						<span className="fas fa-arrow-circle-right"/>
+						<button className="btn btn-danger m-1"
+								onClick={() => this.handleArrowButtonClick(-1)}>
+								&larr;
+						</button>
+						<button className="btn btn-warning m-1" 
+								onClick={this.handleResetButtonClick}>
+								Reset
+						</button>
+						<button className="btn btn-primary m-1" 
+								onClick={this.handleFlipBoardClick}>
+								Flip Board
+						</button>
+						<button className="btn btn-danger m-1"
+								onClick={() => this.handleArrowButtonClick(1)}>
+								&rarr;
+						</button>
+					</div>
+					<div className="form-group mt-1">
+
 					</div>
 				</div>
 				<div className="col-12 col-lg-7">

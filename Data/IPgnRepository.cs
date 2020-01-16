@@ -14,6 +14,6 @@ namespace Chess.Data
 		Task<Pgn> GetGame(int id);
 		Task<IEnumerable<Pgn>> GetFeaturedGames();
         Task<IEnumerable<Pgn>> GetGames();
-        IEnumerable<Pgn> GetGamesFiltered(string name);
+        Task<IEnumerable<Pgn>> GetGamesFiltered(string eventName);
     }
 }

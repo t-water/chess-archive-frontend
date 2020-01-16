@@ -39,18 +39,9 @@ namespace Chess.Controllers
 
         [HttpGet]
         [Route("GetPlayers")]
-        public async Task<IActionResult> GetPlayers()
+        public async Task<IActionResult> GetPlayers(string name)
         {
-            var model = await playerRepo.GetPlayers();
-            string jsonResponse = JsonConvert.SerializeObject(model);
-            return Content(jsonResponse, "application/json");
-        }
-
-        [HttpGet]
-        [Route("GetPlayers/{name}")]
-        public IActionResult GetPlayers(string name)
-        {
-            var model = playerRepo.GetPlayersFiltered(name);
+            var model = await playerRepo.GetPlayersFiltered(name);
             string jsonResponse = JsonConvert.SerializeObject(model);
             return Content(jsonResponse, "application/json");
         }

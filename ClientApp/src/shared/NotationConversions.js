@@ -101,7 +101,7 @@ function ConvertBoardArrayToFEN(squares, isWhitesTurn, castlingRestrictions, enP
 		fenString += "- "
 	}
 
-	fenString += "0 "
+	fenString += halfMoveClock + " "
 
 	fenString += fullMoveCount
 

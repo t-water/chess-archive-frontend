@@ -53,6 +53,7 @@ class ViewGame extends Component{
 		this.setStateToTimeTravelResult = this.setStateToTimeTravelResult.bind(this)
 		this.renderMovesForLine = this.renderMovesForLine.bind(this)
 		this.handleMoveClick = this.handleMoveClick.bind(this)
+		this.handleArrowButtonClick = this.handleArrowButtonClick.bind(this)
 	}
 
 	handleResetButtonClick(){
@@ -128,6 +129,13 @@ class ViewGame extends Component{
 		e.preventDefault();
 	}
 
+	handleArrowButtonClick(i){
+		setTimeout(() => {
+			this.chess.timeTravel(this.chess.getTimeTravelIndex() + i)
+			this.setStateToTimeTravelResult()
+		}, 150)
+	}
+
 	componentDidMount(){
 	    document.addEventListener("keydown", this.handleKeyDown, false);
 	    fetch('/pgn/getgame?id=' + this.props.match.params.id, {
@@ -154,15 +162,25 @@ class ViewGame extends Component{
 			<div className="row">
 				<div className="col-12 col-lg-5 text-center">
 					<h1 className="text-center">Analysis Board</h1>
+					<small>Use Arrow Keys or Arrow Buttons to View Moves</small>
 					<Game fen = {this.state.fen}
 							  squares={this.state.squares}
 							  isWhitesTurn={this.state.isWhitesTurn}
 							  boardFlipped={this.state.boardFlipped}
 							  handleDragStart={this.handleDragStart}/>
 					<div className="form-group mt-1">
-						<button className="btn btn-warning m-1">Previous Move</button>
-						<button className="btn btn-primary m-1" onClick={this.handleFlipBoardClick}>Flip Board</button>
-						<span className="fas fa-arrow-circle-right"></span>
+						<button className="btn btn-danger m-1" 
+								onClick={() => this.handleArrowButtonClick(-1)}>
+							&larr;
+						</button>
+						<button className="btn btn-primary m-1" 
+								onClick={this.handleFlipBoardClick}>
+							Flip Board
+						</button>
+						<button className="btn btn-danger m-1" 
+								onClick={() => this.handleArrowButtonClick(1)}>
+							&rarr;
+						</button>
 					</div>
 				</div>
 				<div className="col-12 col-lg-7">

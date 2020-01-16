@@ -40,9 +40,14 @@ namespace Chess.Data
             return await _context.Pgns.ToListAsync();
         }
 
-        public IEnumerable<Pgn> GetGamesFiltered(string name)
+        public async Task<IEnumerable<Pgn>> GetGamesFiltered(string eventName)
         {
-            return _context.Pgns.Where(p => p.Event.StartsWith(name) || p.Event.EndsWith(name));
+            if (!string.IsNullOrEmpty(eventName))
+            {
+                return await _context.Pgns.Where(p => p.Event.StartsWith(eventName) || p.Event.EndsWith(eventName)).ToListAsync();
+            }
+
+            return await _context.Pgns.ToListAsync();
         }
 
         public async Task<IEnumerable<Pgn>> GetFeaturedGames(){

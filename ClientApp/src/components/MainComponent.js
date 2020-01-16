@@ -8,6 +8,7 @@ import Home from './HomeComponent'
 import ViewGames from './ViewGamesComponent'
 import ViewGame from './ViewGameComponent'
 import BrowseGames from './BrowseGamesComponent'
+import Footer from './FooterComponent'
 
 class Main extends Component{
 	constructor(props){
@@ -29,6 +30,7 @@ class Main extends Component{
 						<Redirect to="/home"/>
 					</Switch>
 				</div>
+				<Footer/>
 			</div>
 		)
 	}

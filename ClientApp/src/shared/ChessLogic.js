@@ -486,15 +486,19 @@ export function PlayChess(fen){
 						pgn.push(this.addToPGN("O-O"))
 					}
 
-					this.endTurn();
-
-					history.push(ConvertBoardArrayToFEN(currentPosition, isWhitesTurn, castlingRestrictions, enPassantTargetIndex, "", fullMoveNumber))
-					timeTravelIndex = history.length - 1;
-					timeTravelArray = currentPosition
-					
 					if(!isWhitesTurn){
 						fullMoveNumber += 1;
 					}
+
+					halfMoveClock += 1;
+
+					this.endTurn();
+
+					history.push(ConvertBoardArrayToFEN(currentPosition, isWhitesTurn, castlingRestrictions, enPassantTargetIndex, halfMoveClock, fullMoveNumber))
+					timeTravelIndex = history.length - 1;
+					timeTravelArray = currentPosition
+					
+
 				}else{
 					validMoveAttempt = false
 				}
@@ -578,9 +582,17 @@ export function PlayChess(fen){
 							fullMoveNumber += 1;
 						}
 
+						if(piece === 'p' || piece === 'P'){
+							halfMoveClock = 0;
+						}else if(capture){
+							halfMoveClock = 0;
+						}else{
+							halfMoveClock += 1;
+						}
+
 						this.endTurn();
 
-						history.push(ConvertBoardArrayToFEN(currentPosition, isWhitesTurn, castlingRestrictions, enPassantTargetIndex, "", fullMoveNumber))
+						history.push(ConvertBoardArrayToFEN(currentPosition, isWhitesTurn, castlingRestrictions, enPassantTargetIndex, halfMoveClock, fullMoveNumber))
 						timeTravelIndex = history.length - 1;
 						timeTravelArray = currentPosition;
 

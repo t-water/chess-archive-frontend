@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
-import Spinner from './SpinnerComponent'
 
 function RenderPlayerCard({player}){
 	return(
@@ -26,7 +25,9 @@ class BrowsePlayers extends Component{
 			playerSearch: ''
 		}
 
-		this.handlePlayerSearch = this.handlePlayerSearch.bind(this)
+		this.handlePlayerSearch = this.handlePlayerSearch.bind(this);
+		this.pageForward = this.pageForward.bind(this);
+		this.pageBackward = this.pageBackward.bind(this);
 	}
 
 	componentDidMount(){
@@ -36,7 +37,7 @@ class BrowsePlayers extends Component{
 		.then(response => response.json())
 		.then(response => {
 			this.setState({
-				players: response
+				players: response,
 			})
 		})
 	}
@@ -45,38 +46,61 @@ class BrowsePlayers extends Component{
 		this.setState({
 			playerSearch: e.target.value
 		}, () => {
-			fetch('player/getPlayers/' + this.state.playerSearch.trim(), {
+			let url = 'player/getPlayers?name=' + this.state.playerSearch.trim()
+			fetch(url, {
 				method: 'GET'
 			})
 			.then(response => response.json())
 			.then(response => {
-				console.log(response)
 				this.setState({
-					players: response
+					players: response,
+					sortOffset: 0
 				})
 			})
 		})
+	}
 
-		
+	pageForward(){
+		if(this.state.sortOffset + 10 <= this.state.players.length - 1){
+			this.setState((state, props) => ({
+				sortOffset: state.sortOffset + 10
+			}))
+		}
+	}
+
+	pageBackward(){
+		if(this.state.sortOffset - 10 > 0){
+			this.setState((state, props) => ({
+				sortOffset: state.sortOffset - 10
+			}))
+		}else{
+			this.setState({
+				sortOffset: 0
+			})
+		}
 	}
 
 	render(){
-		let players = this.state.players.map(player => {
+		let players = this.state.players.slice(this.state.sortOffset, this.state.sortOffset + 10);
+		players = players.map(player => {
 			return <div key={`${player.FullName} Card`}><RenderPlayerCard player = {player}/></div>
 		})
+
 		return(
 			<div>
 				<h1>Browse Players</h1>
 				<div className="form-group">
-					<label>Search Name: </label>
+					<label>Search By Name: </label>
 					<input className="form-control col-12 col-md-6" 
 						   onChange={this.handlePlayerSearch}
 						   value={this.state.playerSearch}/>
 				</div>
-				{this.state.players.length > 0 ? players : <Spinner/>}
+				{players.length > 0 && players}
 				<div className="form-group text-center">
-					<button className="btn btn-primary m-1">Previous Page</button>
-					<button className="btn btn-primary m-1">Next Page</button>
+					<button className="btn btn-primary m-1"
+							onClick={this.pageBackward}>Previous Page</button>
+					<button className="btn btn-primary m-1"
+					        onClick={this.pageForward}>Next Page</button>
 				</div>
 
 			</div>

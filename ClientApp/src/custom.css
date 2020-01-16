@@ -48,7 +48,7 @@ span.highlighted{
   }
 }
 
-@media (max-width: 1132px){
+@media (max-width: 1199px){
   .piece-img{
       width: 45px;
   }
@@ -67,6 +67,17 @@ span.highlighted{
   .square {
       height: 65px;
       width: 65px;
+  }
+}
+
+@media (max-width: 767px){
+  .piece-img{
+      width: 60px;
+  }
+
+  .square {
+      height: 60px;
+      width: 60px;
   }
 }
 
