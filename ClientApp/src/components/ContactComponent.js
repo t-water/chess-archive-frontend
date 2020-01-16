@@ -6,7 +6,10 @@ class Contact extends Component{
 
 		this.state = {
 			email: '',
-			comment: ''
+			emailName: 'Email',
+			comment: '',
+			commentName: 'Comment',
+			response: ''
 		}
 
 		this.handleFormSubmit = this.handleFormSubmit.bind(this)
@@ -16,6 +19,47 @@ class Contact extends Component{
 
 	handleFormSubmit(e){
 		e.preventDefault();
+
+		this.setState({
+			response: ''
+		})
+
+		let formData = new FormData();
+		formData.append(this.state.emailName, this.state.email)
+		formData.append(this.state.commentName, this.state.comment)
+
+		fetch('/feedback/add', {
+			method: 'POST',
+			body: formData
+		})
+		.then(response => {
+			return response.json()
+		}, err => {
+			this.setState({
+				response: 'Error Submitting Feedback. Please Try Again Later.'
+			})
+		})
+		.catch(err => {
+			this.setState({
+				response: 'Error Submitting Feedback. Please Try Again Later.'
+			})
+		})
+		.then(response => {
+			this.setState({
+				response: 'Thank You For Your Feedback!',
+				email: '',
+				comment: ''
+			})
+		}, err => {
+			this.setState({
+				response: 'Error Submitting Feedback. Please Try Again Later.'
+			})
+		})
+		.catch(err => {
+			this.setState({
+				response: 'Error Submitting Feedback. Please Try Again Later.'
+			})
+		})
 	}
 
 	handleEmailInput(e){
@@ -35,24 +79,28 @@ class Contact extends Component{
 			<div>
 				<h1>Contact Us</h1>
 				<form onSubmit={this.handleFormSubmit}>
-					<div class="form-group">
+					<div className="form-group">
 						<label>Email</label>
 						<input className="form-control"
+							   type="email"
 							   onChange={this.handleEmailInput}
 							   value={this.state.email}/>
 					</div>
-					<div class="form-group">
+					<div className="form-group">
 						<label>Comment</label>
 						<textarea className="form-control" 
 								  onChange={this.handleCommentInput}
 								  value={this.state.comment}
 								  rows="6"></textarea>
 					</div>
-					<div class="form-group">
+					<div className="form-group">
 						<button className="btn btn-primary"
 								type="submit">
 							Submit
 						</button>
+					</div>
+					<div className="form-group">
+						<span>{this.state.response}</span>
 					</div>
 				</form>
 			</div>

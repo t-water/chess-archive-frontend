@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
 
 function RenderGameCard({game}){
 	return(
@@ -38,9 +38,11 @@ class BrowseGames extends Component{
 		}, error => console.log(error))
 		.catch(error => console.log(error))
 		.then(response => {
-			this.setState({
-				games: response
-			})
+			if(response){
+				this.setState({
+					games: response
+				})
+			}
 		}, error => console.log(error))
 		.catch(error => console.log(error))
 	}
@@ -86,7 +88,9 @@ class BrowseGames extends Component{
 					games: response,
 					sortOffset: 0
 				})
-				this.state.gameSearch = ''
+				this.state({
+					gameSearch: ''
+				})
 			}, error => console.log(error))
 			.catch(error => console.log(error))
 		}

@@ -1,25 +1,19 @@
-import React, {Component} from 'react';
+import React from 'react';
 
-class Square extends Component{
-	constructor(props){
-		super(props)
-	}
-
-	render(){
-		let indexProp = this.props.boardFlipped ? 63 - this.props.index : this.props.index
-		let pieceProp = this.props.piece ? React.cloneElement(this.props.piece, {index: indexProp,
-																				 row: this.props.row,
-																				 rowParam: this.props.rowParam,
-																				 column: this.props.column,
-																				 columnParam: this.props.columnParam,
-																				 isWhitesTurn: this.props.isWhitesTurn}) : null
-		return(
-			<button className={`btn ${this.props.squareColor} droppable square p-0`}
-					data-index={indexProp}>
-				{pieceProp}
-			</button>
-		)
-	}
+function Square(props){
+	let indexProp = props.boardFlipped ? 63 - props.index : props.index
+	let pieceProp = props.piece ? React.cloneElement(props.piece, {index: indexProp,
+																			 row: props.row,
+																			 rowParam: props.rowParam,
+																			 column: props.column,
+																			 columnParam: props.columnParam,
+																			 isWhitesTurn: props.isWhitesTurn}) : null
+	return(
+		<button className={`btn ${props.squareColor} droppable square p-0`}
+				data-index={indexProp}>
+			{pieceProp}
+		</button>
+	)
 }
 
 export default Square;

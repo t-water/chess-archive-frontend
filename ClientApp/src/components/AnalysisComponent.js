@@ -44,7 +44,6 @@ class Analysis extends Component{
 			image.style.top = pageY - image.offsetHeight / 2 - offsetTop + 'px';
 		}
 		
-		let currentDropable = null;
 		let targetSquareIndex;
 		let draggedPiece = calledFrom;
 		let game = this;
@@ -125,7 +124,6 @@ class Analysis extends Component{
 
 	handleFENInput(){
 		let input = document.getElementById('analysis-component-fen-textarea')
-		let fen = input.textContent.trim();
 		this.chess.startWithFEN(input.value)
 		this.setState({
 			squares: this.chess.getCurrentPosition(),
@@ -218,6 +216,7 @@ class Analysis extends Component{
 		let formData = new FormData();
 		let input = document.getElementById('analysis-component-pgn-textarea');
 		formData.append(input.name, input.value)
+		console.log(formData)
 		let response = await fetch('/pgn/submittext', {
 			method: 'POST',
 			body: formData
@@ -251,12 +250,11 @@ class Analysis extends Component{
 				<div className="col-12 col-lg-5 text-center">
 					<h1 className="text-center">Analysis Board</h1>
 					<small>Use Arrow Keys or Arrow Buttons to View Moves</small>
-					<Game fen = {this.state.fen}
-							  squares={this.state.squares}
-							  isWhitesTurn={this.state.isWhitesTurn}
-							  boardFlipped={this.state.boardFlipped}
-							  handleMouseDown={this.handleMouseDown}
-							  handleDragStart={this.handleDragStart}/>
+					<Game squares={this.state.squares}
+						  isWhitesTurn={this.state.isWhitesTurn}
+						  boardFlipped={this.state.boardFlipped}
+						  handleMouseDown={this.handleMouseDown}
+						  handleDragStart={this.handleDragStart}/>
 					<div className="form-group mt-1">
 						<button className="btn btn-danger m-1"
 								onClick={() => this.handleArrowButtonClick(-1)}>

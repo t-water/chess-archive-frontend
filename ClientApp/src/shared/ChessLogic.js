@@ -276,8 +276,6 @@ export function PlayChess(fen){
 	this.startWithFEN = function(fen){
 		this.newGame();
 		let fenArray = fen.split(" ")
-
-		let pieceString = fenArray[0]
 		
 		let boardArrayFromFen = ConvertFENtoBoardArray(fen)
 

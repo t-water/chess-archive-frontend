@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
 function RenderPlayersTable({players}){
-	let rows = players.map(player => {
-		return <tr><td>{player.FullName}</td><td><a href={"/viewgames/" + player.PlayerId}>View Games</a></td></tr>
+	let rows = players.map((player,i) => {
+		return <tr key={`row ${i}`}><td>{player.FullName}</td><td><a href={"/viewgames/" + player.PlayerId}>View Games</a></td></tr>
 	})
 
 	return(
@@ -23,8 +23,8 @@ function RenderPlayersTable({players}){
 }
 
 function RenderGamesTable({games}){
-	let rows = games.map(game => {
-		return <tr><td>{game.Event}</td><td>{game.Round}</td><td><a href={"/game/" + game.Id}>View Game</a></td></tr>
+	let rows = games.map((game, i) => {
+		return <tr key={`row ${i}`}><td>{game.Event}</td><td>{game.Round}</td><td><a href={"/game/" + game.Id}>View Game</a></td></tr>
 	})
 
 	return(
@@ -63,9 +63,11 @@ class Home extends Component{
 		}, err => console.log(err))
 		.catch(err => console.log(err))
 		.then(response => {
-			this.setState({
-				featuredPlayers: response
-			})
+			if(response){
+				this.setState({
+					featuredPlayers: response
+				})
+			}
 		}, err => console.log(err))
 		.catch(err => console.log(err))
 
@@ -77,9 +79,11 @@ class Home extends Component{
 		}, err => console.log(err))
 		.catch(err => console.log(err))
 		.then(response => {
-			this.setState({
-				featuredGames: response
-			})
+			if(response){
+				this.setState({
+					featuredGames: response
+				})
+			}
 		}, err => console.log(err))
 		.catch(err => console.log(err))
 	}

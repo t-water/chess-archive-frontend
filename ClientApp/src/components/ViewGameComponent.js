@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom";
 import Game from './GameComponent';
 import {PlayChess} from '../shared/ChessLogic';
 
@@ -149,7 +148,7 @@ class ViewGame extends Component{
 	    }, error => console.log(error))
 	    .catch(error => console.log(error))
 	    .then(response => {
-	    	if(response !== null){
+	    	if(response){
 	    		this.chess.startWithPGN(response.Moves)
 	    		this.setState({
 	    			squares: this.chess.getCurrentPosition(),

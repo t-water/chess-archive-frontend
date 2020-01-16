@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardText, CardBody } from 'reactstrap';
 
 function RenderGameCard({game}){
 	return(

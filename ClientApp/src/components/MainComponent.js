@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import NavMenu from './NavMenu';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Analysis from './AnalysisComponent'
-import Upload from './UploadComponent'
 import BrowsePlayers from './BrowsePlayersComponent'
 import Home from './HomeComponent'
 import ViewGames from './ViewGamesComponent'
@@ -21,15 +20,14 @@ class Main extends Component{
 				<NavMenu/>
 				<div className="container" id="content">
 					<Switch>
-						<Route path="/home" component={Home}/>
-						<Route path="/analysis/:id?" component={Analysis}/>
-						<Route path="/upload" component={Upload}/>
-						<Route path="/browseplayers" component={BrowsePlayers}/>
-						<Route path="/viewgames/:id?" component={ViewGames}/>
-						<Route path="/game/:id?" component={ViewGame}/>
-						<Route path="/browsegames" component={BrowseGames}/>
-						<Route path="/contactus" component={Contact}/>
-						<Redirect to="/home"/>
+						<Route path="/chess/home" component={Home}/>
+						<Route path="/chess/analysis/:id?" component={Analysis}/>
+						<Route path="/chess/browseplayers" component={BrowsePlayers}/>
+						<Route path="/chess/viewgames/:id?" component={ViewGames}/>
+						<Route path="/chess/game/:id?" component={ViewGame}/>
+						<Route path="/chess/browsegames" component={BrowseGames}/>
+						<Route path="/chess/contactus" component={Contact}/>
+						<Redirect to="/chess/home"/>
 					</Switch>
 				</div>
 				<Footer/>

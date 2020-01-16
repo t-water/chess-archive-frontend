@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Card, CardImg, CardText, CardBody, CardTitle } from 'reactstrap';
+import { Card, CardText, CardBody } from 'reactstrap';
 
 function RenderPlayerCard({player}){
 	return(
@@ -40,9 +40,11 @@ class BrowsePlayers extends Component{
 		}, error => console.log(error))
 		.catch(error => console.log(error))
 		.then(response => {
-			this.setState({
-				players: response,
-			})
+			if(response){
+				this.setState({
+					players: response,
+				})
+			}
 		}, error => console.log(error))
 		.catch(error => console.log(error))
 	}
@@ -68,7 +70,9 @@ class BrowsePlayers extends Component{
 					players: response,
 					sortOffset: 0
 				})
-				this.state.playerSearch = ''
+				this.setState({
+					playerSearch: ''
+				})
 			}, error => console.log(error))
 			.catch(error => console.log(error))
 		}
