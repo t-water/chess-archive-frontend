@@ -25,18 +25,24 @@ class BrowseGames extends Component{
 
 		this.pageBackward = this.pageBackward.bind(this)
 		this.pageForward = this.pageForward.bind(this)
+		this.handleInput = this.handleInput.bind(this)
+		this.handleGameSearch = this.handleGameSearch.bind(this)
 	}
 
 	componentDidMount(){
 		fetch('/pgn/getGames', {
 			method: 'GET'
 		})
-		.then(response => response.json())
+		.then(response => {
+			return response.json()
+		}, error => console.log(error))
+		.catch(error => console.log(error))
 		.then(response => {
 			this.setState({
 				games: response
 			})
-		})
+		}, error => console.log(error))
+		.catch(error => console.log(error))
 	}
 
 	pageForward(){
@@ -59,22 +65,31 @@ class BrowseGames extends Component{
 		}
 	}
 
-	handleGameSearch(){
+	handleInput(e){
 		this.setState({
 			gameSearch: e.target.value
-		}, () => {
-			let url = 'pgn/getGames?eventName=' + this.state.gameSearch.trim()
+		})
+	}
+
+	handleGameSearch(){
+		if(this.state.gameSearch.trim().length > 0){
+			let url = 'pgn/getGames?eventName=' + encodeURI(this.state.gameSearch.trim())
 			fetch(url, {
 				method: 'GET'
 			})
-			.then(response => response.json())
+			.then(response => {
+				return response.json()
+			}, error => console.log(error))
+			.catch(error => console.log(error))
 			.then(response => {
 				this.setState({
 					games: response,
 					sortOffset: 0
 				})
-			})
-		})
+				this.state.gameSearch = ''
+			}, error => console.log(error))
+			.catch(error => console.log(error))
+		}
 	}
 
 	render(){
@@ -85,11 +100,17 @@ class BrowseGames extends Component{
 		return(
 			<div>
 				<h1>Browse Games</h1>
-				<div className="form-group">
+				<div className="form-group mb-1">
 					<label>Search By Event Title: </label>
 					<input className="form-control col-12 col-md-6" 
-						   onChange={this.handleGameSearch}
-						   value={this.state.gameSearch}/>
+						   value={this.state.gameSearch}
+						   onChange={this.handleInput}/>
+				</div>
+				<div className="form-group">
+					<button className="btn btn-primary"
+							onClick={this.handleGameSearch}>
+						Submit
+					</button>
 				</div>
 				{games.length > 0 && games}
 				<div className="form-group text-center">

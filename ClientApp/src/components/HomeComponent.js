@@ -58,22 +58,30 @@ class Home extends Component{
 		fetch('/player/getfeaturedplayers', {
 			method: 'GET'
 		})
-		.then(response => response.json())
+		.then(response => {
+			return response.json()
+		}, err => console.log(err))
+		.catch(err => console.log(err))
 		.then(response => {
 			this.setState({
 				featuredPlayers: response
 			})
-		})
+		}, err => console.log(err))
+		.catch(err => console.log(err))
 
 		fetch('/pgn/getfeaturedgames', {
 			method: 'GET'
 		})
-		.then(response => response.json())
+		.then(response => {
+			return response.json()
+		}, err => console.log(err))
+		.catch(err => console.log(err))
 		.then(response => {
 			this.setState({
 				featuredGames: response
 			})
-		})
+		}, err => console.log(err))
+		.catch(err => console.log(err))
 	}
 
 	render(){

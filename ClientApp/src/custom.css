@@ -7,6 +7,16 @@ code {
   color: #E01A76;
 }
 
+#window {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#content {
+  flex: 1;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
@@ -14,23 +24,23 @@ code {
 }
 
 .piece-img{
-    width: 55px;
-    height: auto;
+  width: 55px;
+  height: auto;
 }
 
 .square {
-    border-radius: 0px;
-    border-color: #000;
-    height: 55px;
-    width: 55px;
+  border-radius: 0px;
+  border-color: #000;
+  height: 55px;
+  width: 55px;
 }
 
 #analysis-board-line {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 .analysis-component-line-span {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 span.highlighted{
@@ -39,12 +49,12 @@ span.highlighted{
 
 @media (max-width: 1320px){
   .piece-img{
-      width: 55px;
+    width: 55px;
   }
 
   .square {
-      height: 55px;
-      width: 55px;
+    height: 55px;
+    width: 55px;
   }
 }
 

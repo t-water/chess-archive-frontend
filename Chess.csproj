@@ -33,6 +33,8 @@
     <Compile Remove="Migrations\20200111211907_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20200112160310_RemovedTimeFromPlayerDates.cs" />
     <Compile Remove="Migrations\20200112160310_RemovedTimeFromPlayerDates.Designer.cs" />
+    <Compile Remove="Migrations\20200116194405_AddedFeedback.cs" />
+    <Compile Remove="Migrations\20200116194405_AddedFeedback.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

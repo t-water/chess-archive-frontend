@@ -337,10 +337,13 @@ export function PlayChess(fen){
 	}
 
 	this.processPGNArray = function(pgnArray){
-		let indexArray = []
 		for(let i=0; i<pgnArray.length; i++){
 			let piece = pgnArray[i][0].toUpperCase() === "O" ? pgnArray[i] : pgnArray[i][0]
 			if(piece[0].toUpperCase() !== 'O'){
+				if(!pgnArray[i].match(/[a-hA-H]\d/)){
+					return false;
+				}
+
 				let targetSquare = pgnArray[i].match(/[a-hA-H]\d/)[0]
 				targetSquare = ConvertSquareNameToIndex(targetSquare)
 				if(piece.match(/[a-hAC-H]/)){
@@ -361,10 +364,8 @@ export function PlayChess(fen){
 							if(columnOrRow === columnParam){
 								if(validSquares.indexOf(targetSquare) !== -1){
 									this.processMove(pieceArray[j].index, targetSquare)
-									if(validMoveAttempt){
-										indexArray.push([pieceArray[j].index, targetSquare])
-									}else{
-										return "invalid move in pgn"
+									if(!validMoveAttempt){
+										return false
 									}
 								}
 							}
@@ -372,10 +373,8 @@ export function PlayChess(fen){
 							if(parseInt(columnOrRow) === rowParam){
 								if(validSquares.indexOf(targetSquare) !== -1){
 									this.processMove(pieceArray[j].index, targetSquare)
-									if(validMoveAttempt){
-										indexArray.push([pieceArray[j].index, targetSquare])
-									}else{
-										return "invalid move in pgn"
+									if(!validMoveAttempt){
+										return false
 									}
 								}
 							}
@@ -388,20 +387,16 @@ export function PlayChess(fen){
 						if(columnLetter === columnParam){
 							if(validSquares.indexOf(targetSquare) !== -1){
 								this.processMove(pieceArray[j].index, targetSquare)
-								if(validMoveAttempt){
-									indexArray.push([pieceArray[j].index, targetSquare])
-								}else{
-									return "invalid move in pgn"
+								if(!validMoveAttempt){
+									return false
 								}
 							}
 						}
 					}else{
 						if(validSquares.indexOf(targetSquare) !== -1){
 							this.processMove(pieceArray[j].index, targetSquare)
-							if(validMoveAttempt){
-								indexArray.push([pieceArray[j].index, targetSquare])
-							}else{
-								return "invalid move in pgn"
+							if(!validMoveAttempt){
+								return false
 							}
 						}
 					}
@@ -418,26 +413,26 @@ export function PlayChess(fen){
 				let king = i%2===0 ? 'K' : 'k';
 				
 				this.processMove(currentPosition.indexOf(king), currentPosition.indexOf(king) + coefficient)
-
-				if(validMoveAttempt){
-					indexArray.push([currentPosition.indexOf(king), currentPosition.indexOf(king) + coefficient])
-				}else{
-					return "invalid move in pgn"
+				if(!validMoveAttempt){
+					return false
 				}
 			}
 		}
 
-		return indexArray
+		return true
 	}
 
 	this.startWithPGN = function(pgn){
 		this.newGame();
 
 		let pgnArray = this.readPGN(pgn);
-		this.processPGNArray(pgnArray);
-
-		timeTravelIndex = 1
-		currentPosition = ConvertFENtoBoardArray(history[timeTravelIndex]);
+		
+		if(this.processPGNArray(pgnArray) === true){
+			timeTravelIndex = 1
+			currentPosition = ConvertFENtoBoardArray(history[timeTravelIndex]);
+		}else{
+			this.newGame()
+		}
 	}
 
 	this.isCastling = function(piece, startingIndex, endingIndex){

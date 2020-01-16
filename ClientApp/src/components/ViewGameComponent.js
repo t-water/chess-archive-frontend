@@ -39,6 +39,7 @@ class ViewGame extends Component{
 		this.chess = new PlayChess();
 		
 		this.state = {
+			game: undefined,
 			squares: this.chess.getCurrentPosition(),
 			isWhitesTurn: this.chess.getIsWhitesTurn(),
 			line: this.chess.getPGN(),
@@ -88,9 +89,11 @@ class ViewGame extends Component{
 				this.setStateToTimeTravelResult()
 			}, 150)
 		}else if(e.key === "ArrowUp"){
+			e.preventDefault();
 			this.chess.timeTravel(0)
 			this.setStateToTimeTravelResult()
 		}else if(e.key === "ArrowDown"){
+			e.preventDefault();
 			this.chess.timeTravel(this.chess.getHistory().length - 1)
 			this.setStateToTimeTravelResult()
 		}
@@ -141,60 +144,82 @@ class ViewGame extends Component{
 	    fetch('/pgn/getgame?id=' + this.props.match.params.id, {
 	    	method: 'GET'
 	    })
-	    .then(response => response.json())
 	    .then(response => {
-	    	this.chess.startWithPGN(response.Moves)
-	    	this.setState({
-	    		squares: this.chess.getCurrentPosition(),
-	    		isWhitesTurn: this.chess.getIsWhitesTurn(),
-	    		line: this.chess.getPGN(),
-	    		detailsTable: <RenderDetailsTable game={response}/>
-	    	})
-	    })
+	    	return response.json()
+	    }, error => console.log(error))
+	    .catch(error => console.log(error))
+	    .then(response => {
+	    	if(response !== null){
+	    		this.chess.startWithPGN(response.Moves)
+	    		this.setState({
+	    			squares: this.chess.getCurrentPosition(),
+	    			isWhitesTurn: this.chess.getIsWhitesTurn(),
+	    			line: this.chess.getPGN(),
+	    			game: true,
+	    			detailsTable: <RenderDetailsTable game={response}/>
+	    		})
+	    	}else{
+	    		this.setState({
+	    			game: false
+	    		})
+	    	}
+	    }, error => console.log(error))
+	    .catch(error => console.log(error))
 	}
 	componentWillUnmount(){
 	    document.removeEventListener("keydown", this.handleKeyDown, false);
 	}
 	
 	render(){
-		let line = this.renderMovesForLine(this.chess.getTimeTravelIndex())
-		return(
-			<div className="row">
-				<div className="col-12 col-lg-5 text-center">
-					<h1 className="text-center">Analysis Board</h1>
-					<small>Use Arrow Keys or Arrow Buttons to View Moves</small>
-					<Game fen = {this.state.fen}
-							  squares={this.state.squares}
-							  isWhitesTurn={this.state.isWhitesTurn}
-							  boardFlipped={this.state.boardFlipped}
-							  handleDragStart={this.handleDragStart}/>
-					<div className="form-group mt-1">
-						<button className="btn btn-danger m-1" 
-								onClick={() => this.handleArrowButtonClick(-1)}>
-							&larr;
-						</button>
-						<button className="btn btn-primary m-1" 
-								onClick={this.handleFlipBoardClick}>
-							Flip Board
-						</button>
-						<button className="btn btn-danger m-1" 
-								onClick={() => this.handleArrowButtonClick(1)}>
-							&rarr;
-						</button>
+		if(this.state.game === true){
+			let line = this.renderMovesForLine(this.chess.getTimeTravelIndex())
+			return(
+				<div className="row">
+					<div className="col-12 col-lg-5 text-center">
+						<h1 className="text-center">Analysis Board</h1>
+						<small>Use Arrow Keys or Arrow Buttons to View Moves</small>
+						<Game fen = {this.state.fen}
+								  squares={this.state.squares}
+								  isWhitesTurn={this.state.isWhitesTurn}
+								  boardFlipped={this.state.boardFlipped}
+								  handleDragStart={this.handleDragStart}/>
+						<div className="form-group mt-1">
+							<button className="btn btn-danger m-1" 
+									onClick={() => this.handleArrowButtonClick(-1)}>
+								&larr;
+							</button>
+							<button className="btn btn-primary m-1" 
+									onClick={this.handleFlipBoardClick}>
+								Flip Board
+							</button>
+							<button className="btn btn-danger m-1" 
+									onClick={() => this.handleArrowButtonClick(1)}>
+								&rarr;
+							</button>
+						</div>
+					</div>
+					<div className="col-12 col-lg-7">
+						<div>
+							<input className="form-control mb-2"
+										value={this.chess.getCurrentFEN()}
+										maxLength="100"
+							            readOnly  />
+			            </div>
+						<div id="analysis-board-line">{line}</div>
+						{this.state.detailsTable !== null && this.state.detailsTable}
 					</div>
 				</div>
-				<div className="col-12 col-lg-7">
-					<div>
-						<input className="form-control mb-2"
-									value={this.chess.getCurrentFEN()}
-									maxLength="100"
-						            readOnly  />
-		            </div>
-					<div id="analysis-board-line">{line}</div>
-					{this.state.detailsTable !== null && this.state.detailsTable}
+			)
+		}else if(this.state.game === false){
+			return(
+				<div>
+					<h3>Game Not Found</h3>
+					<a href="/home">Return Home</a>
 				</div>
-			</div>
-		)
+			)
+		}else{
+			return(<div></div>)
+		}
 	}
 }
 

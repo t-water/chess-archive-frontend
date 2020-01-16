@@ -8,10 +8,10 @@ class Footer extends Component{
 
 	render(){
 		return(
-			<div className="footer bg-secondary mt-5 py-3">
+			<footer className="footer bg-secondary mt-5 py-3">
 		        <div className="container">
 		            <div className="row">             
-		                <div className="col-4 col-sm-2">
+		                <div className="col-6">
 		                    <h5 className="text-black">Links</h5>
 		                    <ul className="list-unstyled">
 		                        <li><Link to = "/home" className="text-white">Home</Link></li>
@@ -23,7 +23,7 @@ class Footer extends Component{
 		                </div>
 		            </div>
 	            </div>
-            </div>
+            </footer>
 		)
 	}
 }

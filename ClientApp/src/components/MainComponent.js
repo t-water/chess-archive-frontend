@@ -9,6 +9,7 @@ import ViewGames from './ViewGamesComponent'
 import ViewGame from './ViewGameComponent'
 import BrowseGames from './BrowseGamesComponent'
 import Footer from './FooterComponent'
+import Contact from './ContactComponent'
 
 class Main extends Component{
 	constructor(props){
@@ -16,9 +17,9 @@ class Main extends Component{
 	}
 	render(){
 		return(
-			<div>
+			<div id="window">
 				<NavMenu/>
-				<div className="container">
+				<div className="container" id="content">
 					<Switch>
 						<Route path="/home" component={Home}/>
 						<Route path="/analysis/:id?" component={Analysis}/>
@@ -27,6 +28,7 @@ class Main extends Component{
 						<Route path="/viewgames/:id?" component={ViewGames}/>
 						<Route path="/game/:id?" component={ViewGame}/>
 						<Route path="/browsegames" component={BrowseGames}/>
+						<Route path="/contactus" component={Contact}/>
 						<Redirect to="/home"/>
 					</Switch>
 				</div>

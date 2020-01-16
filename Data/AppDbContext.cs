@@ -16,5 +16,6 @@ namespace Chess.Data
 
         public DbSet<Pgn> Pgns { get; set; }
         public DbSet<Player> Players { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
     }
 }

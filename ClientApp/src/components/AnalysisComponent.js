@@ -37,7 +37,8 @@ class Analysis extends Component{
 		moveAt(e.pageX, e.pageY);
 
 		function moveAt(pageX, pageY) {
-			let offsetTop = document.querySelector('#row-8').offsetTop
+			let offsetTop = document.querySelector('.row').offsetTop
+			console.log(offsetTop)
 			let offsetLeft = document.querySelector('.container').offsetLeft
 			image.style.left = pageX - image.offsetWidth / 2 - offsetLeft + 'px';
 			image.style.top = pageY - image.offsetHeight / 2 - offsetTop + 'px';
@@ -166,9 +167,11 @@ class Analysis extends Component{
 				this.setStateToTimeTravelResult()
 			}, 150)
 		}else if(e.key === "ArrowUp"){
+			e.preventDefault();
 			this.chess.timeTravel(0)
 			this.setStateToTimeTravelResult()
 		}else if(e.key === "ArrowDown"){
+			e.preventDefault();
 			this.chess.timeTravel(this.chess.getHistory().length - 1)
 			this.setStateToTimeTravelResult()
 		}
@@ -247,6 +250,7 @@ class Analysis extends Component{
 			<div className="row">
 				<div className="col-12 col-lg-5 text-center">
 					<h1 className="text-center">Analysis Board</h1>
+					<small>Use Arrow Keys or Arrow Buttons to View Moves</small>
 					<Game fen = {this.state.fen}
 							  squares={this.state.squares}
 							  isWhitesTurn={this.state.isWhitesTurn}

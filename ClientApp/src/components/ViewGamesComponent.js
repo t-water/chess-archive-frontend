@@ -29,13 +29,19 @@ class ViewGames extends Component{
 		fetch('/player/viewgames?id=' + this.props.match.params.id, {
 			method: 'GET'
 		})
-		.then(response => response.json())
 		.then(response => {
-			this.setState({
-				player: response.Player,
-				games: response.Games
-			})
-		})
+			return response.json()
+		}, error => console.log(error))
+		.catch(error => console.log(error))
+		.then(response => {
+			if(response.Player !== null){
+				this.setState({
+					player: response.Player,
+					games: response.Games
+				})
+			}
+		}, error => console.log(error))
+		.catch(error => console.log(error))
 	}
 
 	render(){
@@ -50,7 +56,12 @@ class ViewGames extends Component{
 				</div>
 			)
 		}else{
-			return(<div></div>)
+			return(
+				<div>
+					<h3>Player Not Found</h3>
+					<a href="/home">Return Home</a>
+				</div>
+			)
 		}
 		
 	}

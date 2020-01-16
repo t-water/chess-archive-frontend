@@ -24,7 +24,8 @@ class BrowsePlayers extends Component{
 			sortOffset: 0,
 			playerSearch: ''
 		}
-
+		
+		this.handleInput = this.handleInput.bind(this)
 		this.handlePlayerSearch = this.handlePlayerSearch.bind(this);
 		this.pageForward = this.pageForward.bind(this);
 		this.pageBackward = this.pageBackward.bind(this);
@@ -34,30 +35,43 @@ class BrowsePlayers extends Component{
 		fetch('/player/getPlayers', {
 			method: 'GET'
 		})
-		.then(response => response.json())
+		.then(response => {
+			return response.json()
+		}, error => console.log(error))
+		.catch(error => console.log(error))
 		.then(response => {
 			this.setState({
 				players: response,
 			})
+		}, error => console.log(error))
+		.catch(error => console.log(error))
+	}
+
+	handleInput(e){
+		this.setState({
+			playerSearch: e.target.value
 		})
 	}
 
-	handlePlayerSearch(e){
-		this.setState({
-			playerSearch: e.target.value
-		}, () => {
-			let url = 'player/getPlayers?name=' + this.state.playerSearch.trim()
+	handlePlayerSearch(){
+		if(this.state.playerSearch.trim().length > 0){
+			let url = 'player/getPlayers?name=' + encodeURI(this.state.playerSearch.trim())
 			fetch(url, {
 				method: 'GET'
 			})
-			.then(response => response.json())
+			.then(response => {
+				return response.json()
+			}, error => console.log(error))
+			.catch(error => console.log(error))
 			.then(response => {
 				this.setState({
 					players: response,
 					sortOffset: 0
 				})
-			})
-		})
+				this.state.playerSearch = ''
+			}, error => console.log(error))
+			.catch(error => console.log(error))
+		}
 	}
 
 	pageForward(){
@@ -89,11 +103,17 @@ class BrowsePlayers extends Component{
 		return(
 			<div>
 				<h1>Browse Players</h1>
-				<div className="form-group">
+				<div className="form-group mb-1">
 					<label>Search By Name: </label>
 					<input className="form-control col-12 col-md-6" 
-						   onChange={this.handlePlayerSearch}
+						   onChange={this.handleInput}
 						   value={this.state.playerSearch}/>
+				</div>
+				<div className="form-group">
+					<button className="btn btn-primary"
+							onClick={this.handlePlayerSearch}>
+						Submit
+					</button>
 				</div>
 				{players.length > 0 && players}
 				<div className="form-group text-center">
