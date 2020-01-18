@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import SERVER_BASE_URL from '../shared/ServerBaseUrl';
 
 class Contact extends Component{
 	constructor(props){
@@ -28,7 +29,7 @@ class Contact extends Component{
 		formData.append(this.state.emailName, this.state.email)
 		formData.append(this.state.commentName, this.state.comment)
 
-		fetch('/feedback/add', {
+		fetch(SERVER_BASE_URL + '/feedback/add', {
 			method: 'POST',
 			body: formData
 		})

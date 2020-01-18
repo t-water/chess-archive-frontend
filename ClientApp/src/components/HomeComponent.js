@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import SERVER_BASE_URL from '../shared/ServerBaseUrl';
 
 function RenderPlayersTable({players}){
 	let rows = players.map((player,i) => {
@@ -55,8 +56,9 @@ class Home extends Component{
 	}
 
 	componentDidMount(){
-		fetch('/player/getfeaturedplayers', {
-			method: 'GET'
+		fetch(SERVER_BASE_URL + '/player/getfeaturedplayers', {
+			method: 'GET',
+			mode: 'cors'
 		})
 		.then(response => {
 			return response.json()
@@ -71,8 +73,9 @@ class Home extends Component{
 		}, err => console.log(err))
 		.catch(err => console.log(err))
 
-		fetch('/pgn/getfeaturedgames', {
-			method: 'GET'
+		fetch(SERVER_BASE_URL + '/pgn/getfeaturedgames', {
+			method: 'GET',
+			mode: 'cors'
 		})
 		.then(response => {
 			return response.json()

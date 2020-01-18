@@ -24,23 +24,23 @@ class NavMenu extends Component {
   render () {
     return (
       <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm bg-dark border-bottom box-shadow mb-3" dark>
+        <Navbar className="navbar-expand-sm navbar-toggleable-sm bg-danger border-bottom box-shadow mb-3" dark>
           <Container>
-            <NavbarBrand href="/chess/home" className="text-white">Chess Archive</NavbarBrand>
+            <NavbarBrand href="home" className="text-white">Chess Archive</NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="/chess/home">Home</NavLink>
+                  <NavLink className="text-white nav-link" to="home">Home</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="/chess/browsegames">Browse Games</NavLink>
+                  <NavLink className="text-white nav-link" to="browsegames">Browse Games</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="/chess/browseplayers">Browse Players</NavLink>
+                  <NavLink className="text-white nav-link" to="browseplayers">Browse Players</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="/chess/analysis">Analysis</NavLink>
+                  <NavLink className="text-white nav-link" to="analysis">Analysis</NavLink>
                 </NavItem>
               </ul>
             </Collapse>

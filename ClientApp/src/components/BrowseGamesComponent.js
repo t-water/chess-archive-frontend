@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
+import SERVER_BASE_URL from '../shared/ServerBaseUrl';
 
 function RenderGameCard({game}){
 	return(
@@ -7,7 +8,7 @@ function RenderGameCard({game}){
 			<CardBody>
 				<CardTitle>{game.Event}</CardTitle>
 				<CardText>Round: {game.Round}</CardText>
-				<CardText><a href={"/game/" + game.Id}>View Game</a></CardText>
+				<CardText><a href={"game/" + game.Id}>View Game</a></CardText>
 			</CardBody>
 		</Card>
 	)
@@ -30,7 +31,7 @@ class BrowseGames extends Component{
 	}
 
 	componentDidMount(){
-		fetch('/pgn/getGames', {
+		fetch(SERVER_BASE_URL + '/pgn/getGames', {
 			method: 'GET'
 		})
 		.then(response => {
@@ -75,8 +76,8 @@ class BrowseGames extends Component{
 
 	handleGameSearch(){
 		if(this.state.gameSearch.trim().length > 0){
-			let url = 'pgn/getGames?eventName=' + encodeURI(this.state.gameSearch.trim())
-			fetch(url, {
+			let url = '/pgn/getGames?eventName=' + encodeURI(this.state.gameSearch.trim())
+			fetch(SERVER_BASE_URL + url, {
 				method: 'GET'
 			})
 			.then(response => {

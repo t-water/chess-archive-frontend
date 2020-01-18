@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import Game from './GameComponent';
 import {PlayChess} from '../shared/ChessLogic';
+import SERVER_BASE_URL from '../shared/ServerBaseUrl';
 
 class Analysis extends Component{
 	constructor(props){
@@ -38,7 +39,6 @@ class Analysis extends Component{
 
 		function moveAt(pageX, pageY) {
 			let offsetTop = document.querySelector('.row').offsetTop
-			console.log(offsetTop)
 			let offsetLeft = document.querySelector('.container').offsetLeft
 			image.style.left = pageX - image.offsetWidth / 2 - offsetLeft + 'px';
 			image.style.top = pageY - image.offsetHeight / 2 - offsetTop + 'px';
@@ -216,8 +216,7 @@ class Analysis extends Component{
 		let formData = new FormData();
 		let input = document.getElementById('analysis-component-pgn-textarea');
 		formData.append(input.name, input.value)
-		console.log(formData)
-		let response = await fetch('/pgn/submittext', {
+		let response = await fetch(SERVER_BASE_URL + '/pgn/submittext', {
 			method: 'POST',
 			body: formData
 		});

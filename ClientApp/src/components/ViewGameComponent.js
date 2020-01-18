@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Game from './GameComponent';
 import {PlayChess} from '../shared/ChessLogic';
+import SERVER_BASE_URL from '../shared/ServerBaseUrl';
 
 function RenderDetailsTable({game}){
 	return(<div className="table-responsive mt-5">
@@ -140,7 +141,7 @@ class ViewGame extends Component{
 
 	componentDidMount(){
 	    document.addEventListener("keydown", this.handleKeyDown, false);
-	    fetch('/pgn/getgame?id=' + this.props.match.params.id, {
+	    fetch(SERVER_BASE_URL + '/pgn/getgame?id=' + this.props.match.params.id, {
 	    	method: 'GET'
 	    })
 	    .then(response => {

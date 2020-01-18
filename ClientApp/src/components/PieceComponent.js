@@ -19,7 +19,7 @@ class Piece extends Component{
 	render(){
 		let pieceColor = this.props.isWhite ? "white" : "black"
 
-		return(<img src={'/chess' + IMAGE_URLS[`${pieceColor.toUpperCase()}_${this.props.name.toUpperCase()}`]}
+		return(<img src={IMAGE_URLS[`${pieceColor.toUpperCase()}_${this.props.name.toUpperCase()}`]}
 					alt={`${pieceColor}_${this.props.name}`}
 			        className="piece-img"
 			        onMouseDown={this.handleMouseDown}

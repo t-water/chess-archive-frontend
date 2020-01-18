@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Card, CardText, CardBody } from 'reactstrap';
+import SERVER_BASE_URL from '../shared/ServerBaseUrl';
 
 function RenderPlayerCard({player}){
 	return(
@@ -9,7 +10,7 @@ function RenderPlayerCard({player}){
 				<CardText><strong>Country: </strong>{player.Country}</CardText>
 				<CardText><strong>Born: </strong>{player.BirthDate.replace(/T00:00:00/, "")}</CardText>
 				{player.DeathDate !== null && <CardText><strong>Died: </strong>{player.DeathDate.replace(/T00:00:00/, "")}</CardText>}
-				<CardText><a className="btn btn-primary" href={"/viewgames/" + player.PlayerId}>View Games</a></CardText>
+				<CardText><a className="btn btn-primary" href={"viewgames/" + player.PlayerId}>View Games</a></CardText>
 			</CardBody>
 		</Card>
 	)
@@ -32,7 +33,7 @@ class BrowsePlayers extends Component{
 	}
 
 	componentDidMount(){
-		fetch('/player/getPlayers', {
+		fetch(SERVER_BASE_URL + '/player/getPlayers', {
 			method: 'GET'
 		})
 		.then(response => {
@@ -57,8 +58,8 @@ class BrowsePlayers extends Component{
 
 	handlePlayerSearch(){
 		if(this.state.playerSearch.trim().length > 0){
-			let url = 'player/getPlayers?name=' + encodeURI(this.state.playerSearch.trim())
-			fetch(url, {
+			let url = '/player/getPlayers?name=' + encodeURI(this.state.playerSearch.trim())
+			fetch(SERVER_BASE_URL + url, {
 				method: 'GET'
 			})
 			.then(response => {
