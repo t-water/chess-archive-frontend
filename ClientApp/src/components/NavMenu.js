@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem} from 'reactstrap';
-import { NavLink } from 'react-router-dom';
 import './NavMenu.css';
 
 class NavMenu extends Component {
@@ -31,16 +30,16 @@ class NavMenu extends Component {
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
               <ul className="navbar-nav flex-grow">
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="home">Home</NavLink>
+                  <a className="text-white nav-link" href="home">Home</a>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="browsegames">Browse Games</NavLink>
+                  <a className="text-white nav-link" href="browsegames">Browse Games</a>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="browseplayers">Browse Players</NavLink>
+                  <a className="text-white nav-link" href="browseplayers">Browse Players</a>
                 </NavItem>
                 <NavItem>
-                  <NavLink className="text-white nav-link" to="analysis">Analysis</NavLink>
+                  <a className="text-white nav-link" href="analysis">Analysis</a>
                 </NavItem>
               </ul>
             </Collapse>

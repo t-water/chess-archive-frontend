@@ -10,7 +10,7 @@ function RenderGameCard({game}){
 				<CardText><strong>Round:</strong> {game.Round}</CardText>
 				<CardText><strong>White:</strong> {game.WhitePlayer.FullName}</CardText>
 				<CardText><strong>Black:</strong> {game.BlackPlayer.FullName}</CardText>
-				<CardText><a href={"chess/game/" + game.Id}>View Game</a></CardText>
+				<CardText><a href={"/game/" + game.Id}>View Game</a></CardText>
 			</CardBody>
 		</Card>
 	)

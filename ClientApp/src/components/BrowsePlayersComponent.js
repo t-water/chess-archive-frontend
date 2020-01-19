@@ -10,7 +10,7 @@ function RenderPlayerCard({player}){
 				<CardText><strong>Country: </strong>{player.Country}</CardText>
 				<CardText><strong>Born: </strong>{player.BirthDate.replace(/T00:00:00/, "")}</CardText>
 				{player.DeathDate !== null && <CardText><strong>Died: </strong>{player.DeathDate.replace(/T00:00:00/, "")}</CardText>}
-				<CardText><a className="btn btn-primary" href={"viewgames/" + player.PlayerId}>View Games</a></CardText>
+				<CardText><a className="btn btn-primary" href={"/viewgames/" + player.PlayerId}>View Games</a></CardText>
 			</CardBody>
 		</Card>
 	)

@@ -8,7 +8,7 @@ function RenderGameCard({game}){
 			<CardBody>
 				<CardTitle>{game.Event}</CardTitle>
 				<CardText>Round: {game.Round}</CardText>
-				<CardText><a href={"game/" + game.Id}>View Game</a></CardText>
+				<CardText><a href={"/game/" + game.Id}>View Game</a></CardText>
 			</CardBody>
 		</Card>
 	)
