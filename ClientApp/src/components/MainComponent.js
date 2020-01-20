@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import NavMenu from './NavMenu';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import Analysis from './AnalysisComponent'
 import BrowsePlayers from './BrowsePlayersComponent'
 import Home from './HomeComponent'
@@ -9,6 +9,13 @@ import ViewGame from './ViewGameComponent'
 import BrowseGames from './BrowseGamesComponent'
 import Footer from './FooterComponent'
 import Contact from './ContactComponent'
+import { connect } from 'react-redux';
+
+const mapStateToProps = state => {
+	return {
+		analysis: state.analysis
+	}
+}
 
 class Main extends Component{
 	constructor(props){
@@ -36,4 +43,4 @@ class Main extends Component{
 	}
 }
 
-export default Main
+export default withRouter(connect(mapStateToProps)(Main));
