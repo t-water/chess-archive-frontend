@@ -1,0 +1,6 @@
+export const ADD_PLAYERS = 'ADD_PLAYERS';
+export const PLAYERS_LOADING = 'PLAYERS_LOADING';
+export const PLAYERS_FAILED = 'PLAYERS_FAILED';
+export const ADD_GAMES = 'ADD_GAMES';
+export const GAMES_LOADING = 'GAMES_LOADING';
+export const GAMES_FAILED = 'GAMES_FAILED';
