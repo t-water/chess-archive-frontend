@@ -1,17 +1,34 @@
 import React, {Component} from 'react';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
-import SERVER_BASE_URL from '../shared/ServerBaseUrl';
 
-function RenderGameCard({game}){
-	return(
-		<Card className="mb-3">
-			<CardBody>
-				<CardTitle>{game.Event}</CardTitle>
-				<CardText>Round: {game.Round}</CardText>
-				<CardText><a href={"/game/" + game.Id}>View Game</a></CardText>
-			</CardBody>
-		</Card>
-	)
+function RenderGames({games, isLoading, errMess}){
+	if(isLoading){
+		return <h4 className = "text-center">...Loading</h4>
+	}else if(errMess){
+		return <h4 className = "text-center">Unable to Load Games</h4>
+	}else{
+		if(games.length > 0){
+			return games.map(g => {
+				return(
+					<div key={`${g.Event} ${g.Round} Card`}>
+						<Card className="mb-3">
+							<CardBody>
+								<CardTitle>{g.Event}</CardTitle>
+								<CardText>Round: {g.Round}</CardText>
+								<CardText>White: {g.WhitePlayer.FullName}</CardText>
+								<CardText>Black: {g.BlackPlayer.FullName}</CardText>
+								<CardText>Date: {g.Date}</CardText>
+								<CardText><a href={"/game/" + g.Id}>View Game</a></CardText>
+							</CardBody>
+						</Card>
+					</div>
+				)
+			})
+		}else{
+			return <h4 className="text-center">No Games Found</h4>
+		}
+
+	}
 }
 
 class BrowseGames extends Component{
@@ -19,37 +36,31 @@ class BrowseGames extends Component{
 		super(props)
 
 		this.state = {
-			games: [],
-			sortOffset: 0,
-			gameSearch: ''
+			gameSearch: '',
+			sortOffset: 0
 		}
-
-		this.pageBackward = this.pageBackward.bind(this)
+		
+		this.searchFilter = this.searchFilter.bind(this)
 		this.pageForward = this.pageForward.bind(this)
+		this.pageBackward = this.pageBackward.bind(this)
 		this.handleInput = this.handleInput.bind(this)
-		this.handleGameSearch = this.handleGameSearch.bind(this)
 	}
 
-	componentDidMount(){
-		fetch(SERVER_BASE_URL + '/pgn/getGames', {
-			method: 'GET'
-		})
-		.then(response => {
-			return response.json()
-		}, error => console.log(error))
-		.catch(error => console.log(error))
-		.then(response => {
-			if(response){
-				this.setState({
-					games: response
-				})
-			}
-		}, error => console.log(error))
-		.catch(error => console.log(error))
+	searchFilter(x){
+		if(x.Event.toLowerCase().includes(this.state.gameSearch.toLowerCase())){
+			return true
+		}else if(x.WhitePlayer.FullName.toLowerCase().includes(this.state.gameSearch.toLowerCase())){
+			return true
+		}else if(x.BlackPlayer.FullName.toLowerCase().includes(this.state.gameSearch.toLowerCase())){
+			return true
+		}else{
+			return false
+		}
 	}
 
 	pageForward(){
-		if(this.state.sortOffset + 10 <= this.state.games.length - 1){
+		let gameCount = this.props.games.filter(g => this.searchFilter(g)).length
+		if(this.state.sortOffset + 10 <= gameCount - 1){
 			this.setState((state, props) => ({
 				sortOffset: state.sortOffset + 10
 			}))
@@ -73,43 +84,19 @@ class BrowseGames extends Component{
 			gameSearch: e.target.value
 		})
 	}
-
-	handleGameSearch(){
-		if(this.state.gameSearch.trim().length > 0){
-			let url = '/pgn/getGames?eventName=' + encodeURI(this.state.gameSearch.trim())
-			fetch(SERVER_BASE_URL + url, {
-				method: 'GET'
-			})
-			.then(response => {
-				return response.json()
-			}, error => console.log(error))
-			.catch(error => console.log(error))
-			.then(response => {
-				this.setState({
-					games: response,
-					sortOffset: 0
-				})
-				this.state({
-					gameSearch: ''
-				})
-			}, error => console.log(error))
-			.catch(error => console.log(error))
-		}
-	}
-
+	
 	render(){
-		let games = this.state.games.slice(this.state.sortOffset, this.state.sortOffset + 10);
-		games = games.map(game => {
-			return(<div key={`${game.Event}: Round ${game.Round} Card`}><RenderGameCard game={game}/></div>)
-		})
+		let games = this.props.games.filter(g => this.searchFilter(g))
+									.slice(this.state.sortOffset, this.state.sortOffset + 10);
+		 
 		return(
 			<div>
 				<h1>Browse Games</h1>
 				<div className="form-group mb-1">
 					<label>Search By Event Title: </label>
 					<input className="form-control col-12 col-md-6" 
-						   value={this.state.gameSearch}
-						   onChange={this.handleInput}/>
+											   value={this.state.gameSearch}
+											   onChange={this.handleInput}/>
 				</div>
 				<div className="form-group">
 					<button className="btn btn-primary"
@@ -117,12 +104,18 @@ class BrowseGames extends Component{
 						Submit
 					</button>
 				</div>
-				{games.length > 0 && games}
+				<RenderGames games={games}
+							 isLoading={this.props.isLoading}
+							 errMess={this.props.errMess}/>
 				<div className="form-group text-center">
 					<button className="btn btn-primary m-1"
-							onClick={this.pageBackward}>Previous Page</button>
+							onClick={this.pageBackward}>
+						Previous Page
+					</button>
 					<button className="btn btn-primary m-1"
-							onClick={this.pageForward}>Next Page</button>
+							onClick={this.pageForward}>
+						Next Page
+					</button>
 				</div>
 			</div>
 		)

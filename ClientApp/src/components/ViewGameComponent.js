@@ -1,35 +1,36 @@
 import React, { Component } from 'react';
 import Game from './GameComponent';
 import {PlayChess} from '../shared/ChessLogic';
-import SERVER_BASE_URL from '../shared/ServerBaseUrl';
 
 function RenderDetailsTable({game}){
-	return(<div className="table-responsive mt-5">
-		<table className="table table-striped">
-			<tbody>
-				<tr>
-					<th>White</th>
-					<td>{game.WhitePlayer.FullName}</td>
-				</tr>
-				<tr>
-					<th>Black</th>
-					<td>{game.BlackPlayer.FullName}</td>
-				</tr>
-				<tr>
-					<th>Event</th>
-					<td>{game.Event}</td>
-				</tr>
-				<tr>
-					<th>Round</th>
-					<td>{game.Round}</td>
-				</tr>
-				<tr>
-					<th>Result</th>
-					<td>{game.Result}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>)
+	return(
+		<div className="table-responsive mt-5">
+			<table className="table table-striped">
+				<tbody>
+					<tr>
+						<th>White</th>
+						<td>{game.WhitePlayer.FullName}</td>
+					</tr>
+					<tr>
+						<th>Black</th>
+						<td>{game.BlackPlayer.FullName}</td>
+					</tr>
+					<tr>
+						<th>Event</th>
+						<td>{game.Event}</td>
+					</tr>
+					<tr>
+						<th>Round</th>
+						<td>{game.Round}</td>
+					</tr>
+					<tr>
+						<th>Result</th>
+						<td>{game.Result}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	)
 }
 
 class ViewGame extends Component{
@@ -39,12 +40,10 @@ class ViewGame extends Component{
 		this.chess = new PlayChess();
 		
 		this.state = {
-			game: undefined,
-			squares: this.chess.getCurrentPosition(),
-			isWhitesTurn: this.chess.getIsWhitesTurn(),
-			line: this.chess.getPGN(),
+			squares: [],
+			isWhitesTurn: true,
+			line: [],
 			boardFlipped: false,
-			detailsTable: null
 		}
 
 		this.handleResetButtonClick = this.handleResetButtonClick.bind(this)
@@ -141,48 +140,47 @@ class ViewGame extends Component{
 
 	componentDidMount(){
 	    document.addEventListener("keydown", this.handleKeyDown, false);
-	    fetch(SERVER_BASE_URL + '/pgn/getgame?id=' + this.props.match.params.id, {
-	    	method: 'GET'
-	    })
-	    .then(response => {
-	    	return response.json()
-	    }, error => console.log(error))
-	    .catch(error => console.log(error))
-	    .then(response => {
-	    	if(response){
-	    		this.chess.startWithPGN(response.Moves)
-	    		this.setState({
-	    			squares: this.chess.getCurrentPosition(),
-	    			isWhitesTurn: this.chess.getIsWhitesTurn(),
-	    			line: this.chess.getPGN(),
-	    			game: true,
-	    			detailsTable: <RenderDetailsTable game={response}/>
-	    		})
-	    	}else{
-	    		this.setState({
-	    			game: false
-	    		})
-	    	}
-	    }, error => console.log(error))
-	    .catch(error => console.log(error))
+	    if(this.props.game){
+			this.chess.startWithPGN(this.props.game.Moves)
+			this.setState({
+				squares: this.chess.getCurrentPosition(),
+				isWhitesTurn: this.chess.getIsWhitesTurn(),
+				line: this.chess.getPGN()
+			})
+	    }
 	}
 	componentWillUnmount(){
 	    document.removeEventListener("keydown", this.handleKeyDown, false);
 	}
 	
 	render(){
-		if(this.state.game === true){
+		if(this.props.isLoading){
+			return <h4 className="text-center">...Loading</h4>
+		}else if(this.props.errMess){
+			return (
+				<div className="text-center">
+					<h2>Error Loading Game</h2>
+					<a href="/home">Return Home</a>
+				</div>
+			)
+		}else if(!this.props.game){
+			return (
+				<div className="text-center">
+					<h2>Game Not Found</h2>
+					<a href="/home">Return Home</a>
+				</div>
+			)
+		}else{
 			let line = this.renderMovesForLine(this.chess.getTimeTravelIndex())
 			return(
 				<div className="row">
 					<div className="col-12 col-lg-5 text-center">
 						<h1 className="text-center">Analysis Board</h1>
 						<small>Use Arrow Keys or Arrow Buttons to View Moves</small>
-						<Game fen = {this.state.fen}
-								  squares={this.state.squares}
-								  isWhitesTurn={this.state.isWhitesTurn}
-								  boardFlipped={this.state.boardFlipped}
-								  handleDragStart={this.handleDragStart}/>
+						<Game squares={this.state.squares}
+							  isWhitesTurn={this.state.isWhitesTurn}
+							  boardFlipped={this.state.boardFlipped}
+							  handleDragStart={this.handleDragStart}/>
 						<div className="form-group mt-1">
 							<button className="btn btn-danger m-1" 
 									onClick={() => this.handleArrowButtonClick(-1)}>
@@ -206,19 +204,10 @@ class ViewGame extends Component{
 							            readOnly  />
 			            </div>
 						<div id="analysis-board-line">{line}</div>
-						{this.state.detailsTable !== null && this.state.detailsTable}
+						<RenderDetailsTable game={this.props.game}/>
 					</div>
 				</div>
 			)
-		}else if(this.state.game === false){
-			return(
-				<div>
-					<h3>Game Not Found</h3>
-					<a href="/home">Return Home</a>
-				</div>
-			)
-		}else{
-			return(<div></div>)
 		}
 	}
 }

@@ -41,6 +41,23 @@ class Main extends Component{
 				      gamesErrMess={this.props.games.errMess}/>
 			)
 		}
+
+		const GameWithId = ({match}) => {
+			return(
+				<ViewGame game={this.props.games.games.filter(g => g.Id == match.params.id)[0]}
+						  isLoading={this.props.games.isLoading}
+						  errMess={this.props.games.errMess}/>
+			)
+		}
+
+		const PlayerWithId = ({match}) => {
+			return <ViewGames player={this.props.players.players.filter(p => p.PlayerId == match.params.id)[0]}
+							  playerLoading={this.props.players.isLoading}
+							  playerErrMess={this.props.players.errMess}
+							  games={this.props.games.games.filter(g => g.WhitePlayerId == match.params.id || g.BlackPlayerId == match.params.id)}
+							  gamesLoading={this.props.games.isLoading}
+							  gamesErrMess={this.props.games.errMess}/>
+		}
 		return(
 			<div id="window">
 				<NavMenu/>
@@ -50,10 +67,12 @@ class Main extends Component{
 						<Route path="/analysis/:id?" component={Analysis}/>
 						<Route path="/browseplayers" component={() => <BrowsePlayers players={this.props.players.players} 
 																					 isLoading={this.props.players.isLoading}
-																					 errMess={this.props.errMess}/>}/>
-						<Route path="/viewgames/:id?" component={ViewGames}/>
-						<Route path="/game/:id?" component={ViewGame}/>
-						<Route path="/browsegames" component={BrowseGames}/>
+																					 errMess={this.props.players.errMess}/>}/>
+						<Route path="/browsegames" component={() => <BrowseGames games={this.props.games.games}
+																				 isLoading={this.props.games.isLoading}
+																				 errMess={this.props.games.errMess}/>}/>
+						<Route path="/viewgames/:id?" component={PlayerWithId}/>
+						<Route path="/game/:id?" component={GameWithId}/>
 						<Route path="/contactus" component={Contact}/>
 						<Redirect to="/home"/>
 					</Switch>

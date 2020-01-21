@@ -19,52 +19,36 @@ function RenderGameCard({game}){
 class ViewGames extends Component{
 	constructor(props){
 		super(props)
-
-		this.state = {
-			player: null,
-			games: []
-		}
-	}
-
-	componentDidMount(){
-		fetch(SERVER_BASE_URL + '/player/viewgames?id=' + this.props.match.params.id, {
-			method: 'GET'
-		})
-		.then(response => {
-			return response.json()
-		}, error => console.log(error))
-		.catch(error => console.log(error))
-		.then(response => {
-			if(response.Player !== null){
-				this.setState({
-					player: response.Player,
-					games: response.Games
-				})
-			}
-		}, error => console.log(error))
-		.catch(error => console.log(error))
 	}
 
 	render(){
-		if(this.state.player){
-			let games = this.state.games.map(game => {
+		if(this.props.playerLoading || this.props.gamesLoading){
+			return(<h2 className="text-center">...Loading</h2>)
+		}else if(this.props.playerErrMess || this.props.gamesErrMess){
+			return(
+				<div className="text-center">
+					<h2>Error Loading Games</h2>
+					<a href="/home">Return Home</a>
+				</div>
+			)
+		}else if(!this.props.player){
+			return(
+				<div className="text-center">
+					<h2>Player Not Found</h2>
+					<a href="/home">Return Home</a>
+				</div>
+			)
+		}else{
+			let games = this.props.games.map(game => {
 				return <div key={`${game.Event} ${game.Round}`}><RenderGameCard game={game}/></div>
 			})
 			return(
 				<div>
-					<h1>{this.state.player.FullName}</h1>
+					<h1>{this.props.player.FullName}</h1>
 					<div>{games}</div>
 				</div>
 			)
-		}else{
-			return(
-				<div>
-					<h3>Player Not Found</h3>
-					<a href="/home">Return Home</a>
-				</div>
-			)
-		}
-		
+		}		
 	}
 }
 
