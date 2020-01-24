@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { Card, CardText, CardBody, CardTitle } from 'reactstrap';
+import Spinner from './SpinnerComponent';
 
 function RenderGames({games, isLoading, errMess}){
 	if(isLoading){
-		return <h4 className = "text-center">...Loading</h4>
+		return <div className="text-center mb-3"><Spinner height={100}/></div>
 	}else if(errMess){
 		return <h4 className = "text-center">Unable to Load Games</h4>
 	}else{
@@ -93,7 +94,7 @@ class BrowseGames extends Component{
 			<div>
 				<h1>Browse Games</h1>
 				<div className="form-group mb-1">
-					<label>Search By Event Title: </label>
+					<label>Search: </label>
 					<input className="form-control col-12 col-md-6" 
 											   value={this.state.gameSearch}
 											   onChange={this.handleInput}/>

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { Card, CardText, CardBody } from 'reactstrap';
+import Spinner from './SpinnerComponent';
 
 function RenderPlayers({players, isLoading, errMess}){
 	if(isLoading){
-		return <h4 className = "text-center">...Loading</h4>
+		return <div className="text-center mb-3"><Spinner height={100}/></div>
 	}else if(errMess){
 		return <h4 className = "text-center">Unable to Load Players</h4>
 	}else{

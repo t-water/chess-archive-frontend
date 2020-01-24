@@ -1,8 +1,9 @@
 import React from 'react';
+import Spinner from './SpinnerComponent'
 
 function RenderPlayersTable({players, isLoading, errMess}){
 	if(isLoading){
-		return (<h4 className="text-center">...Loading</h4>)
+		return (<div className="text-center"><Spinner/></div>)
 	}else if(errMess){
 		return (<h4 className="text-center">Unable To Load Featured Players</h4>)
 	}else{
@@ -30,7 +31,7 @@ function RenderPlayersTable({players, isLoading, errMess}){
 
 function RenderGamesTable({games, isLoading, errMess}){
 	if(isLoading){
-		return (<h4 className="text-center">...Loading</h4>)
+		return (<div className="text-center"><Spinner/></div>)
 	}else if(errMess){
 		return (<h4 className="text-center">Unable To Load Featured Games</h4>)
 	}else{

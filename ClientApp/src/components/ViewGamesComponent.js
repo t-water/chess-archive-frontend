@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { Card, CardText, CardBody } from 'reactstrap';
 import SERVER_BASE_URL from '../shared/ServerBaseUrl';
+import Spinner from './SpinnerComponent'
 
 function RenderGameCard({game}){
 	return(
@@ -23,7 +24,7 @@ class ViewGames extends Component{
 
 	render(){
 		if(this.props.playerLoading || this.props.gamesLoading){
-			return(<h2 className="text-center">...Loading</h2>)
+			return <div className="text-center mb-3"><Spinner height={100}/></div>
 		}else if(this.props.playerErrMess || this.props.gamesErrMess){
 			return(
 				<div className="text-center">

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Game from './GameComponent';
 import {PlayChess} from '../shared/ChessLogic';
+import Spinner from './SpinnerComponent';
 
 function RenderDetailsTable({game}){
 	return(
@@ -155,7 +156,7 @@ class ViewGame extends Component{
 	
 	render(){
 		if(this.props.isLoading){
-			return <h4 className="text-center">...Loading</h4>
+			return <div className="text-center mb-3"><Spinner height={100}/></div>
 		}else if(this.props.errMess){
 			return (
 				<div className="text-center">
