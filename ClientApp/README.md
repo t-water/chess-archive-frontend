@@ -1,6 +1,6 @@
 # Introduction
 
-The code in this repository represents both the React component architecture for the UI of https://chessarchive.org, as well as the chess logic used in processing inputted games.
+The code in this repository represents both the React component architecture for the UI of https://chessarchive.org, as well as the chess logic used in processing inputted games
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
